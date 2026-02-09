@@ -3,28 +3,6 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-:root {
-  --background: #fafaf9;
-  --foreground: #1c1917;
-  --muted: #78716c;
-  --border: #e7e5e4;
-  --accent: #4f46e5;
-  --accent-hover: #4338ca;
-  --surface: #ffffff;
-  --surface-hover: #f5f5f4;
-}
-
-.dark {
-  --background: #121210;
-  --foreground: #e7e5e4;
-  --muted: #a8a29e;
-  --border: #1c1b19;
-  --accent: #818cf8;
-  --accent-hover: #a5b4fc;
-  --surface: #1a1918;
-  --surface-hover: #232220;
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -38,6 +16,30 @@
   --font-serif: var(--font-lora);
   --font-lora: var(--font-lora);
   --font-mono: var(--font-mono);
+}
+
+@layer base {
+  :root {
+    --background: #fafaf9;
+    --foreground: #1c1917;
+    --muted: #78716c;
+    --border: #e7e5e4;
+    --accent: #4f46e5;
+    --accent-hover: #4338ca;
+    --surface: #ffffff;
+    --surface-hover: #f5f5f4;
+  }
+
+  .dark {
+    --background: #121210;
+    --foreground: #e7e5e4;
+    --muted: #a8a29e;
+    --border: #1c1b19;
+    --accent: #818cf8;
+    --accent-hover: #a5b4fc;
+    --surface: #1a1918;
+    --surface-hover: #232220;
+  }
 }
 
 /* Base */
