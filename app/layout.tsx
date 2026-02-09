@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Lora, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/constants";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const lora = Lora({ subsets: ["latin"], variable: "--font-lora" });
@@ -10,8 +11,28 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Leo의 블로그",
-  description: "생각과 경험을 기록하는 공간",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+  },
+  alternates: {
+    canonical: SITE_URL,
+  },
 };
 
 // Script to prevent dark mode flash on load

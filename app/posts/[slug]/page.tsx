@@ -1,9 +1,11 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getAllPosts, getPostBySlug } from '@/lib/posts';
 import { remark } from 'remark';
 import html from 'remark-html';
 import Nav from '@/components/nav';
 import Footer from '@/components/footer';
+import { SITE_URL, SITE_NAME } from '@/lib/constants';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -14,6 +16,35 @@ export async function generateStaticParams() {
   return posts.map((post) => ({
     slug: post.slug,
   }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
+
+  if (!post) return {};
+
+  const url = `${SITE_URL}/posts/${slug}`;
+
+  return {
+    title: post.title,
+    description: post.excerpt,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'article',
+      title: post.title,
+      description: post.excerpt,
+      url,
+      siteName: SITE_NAME,
+      publishedTime: post.date,
+      locale: 'ko_KR',
+    },
+    twitter: {
+      card: 'summary',
+      title: post.title,
+      description: post.excerpt,
+    },
+  };
 }
 
 export default async function Post({ params }: Props) {
@@ -30,8 +61,25 @@ export default async function Post({ params }: Props) {
   const contentHtml = processedContent.toString();
   const readingTime = Math.ceil(post.content.length / 500);
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.date,
+    url: `${SITE_URL}/posts/${slug}`,
+    author: {
+      '@type': 'Person',
+      name: 'Leo',
+    },
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Nav backLink />
 
       <article className="max-w-[640px] w-full mx-auto px-5 pt-12 pb-24 flex-1">
