@@ -1,41 +1,59 @@
 import Link from 'next/link';
 import { getAllPosts } from '@/lib/posts';
+import Nav from '@/components/nav';
+import Footer from '@/components/footer';
 
 export default function Home() {
   const posts = getAllPosts();
 
   return (
-    <div className="min-h-screen bg-white">
-      <header className="border-b border-gray-200">
-        <div className="max-w-3xl mx-auto px-6 py-8">
-          <h1 className="font-lora text-4xl font-bold text-gray-900 mb-2">
-            Leo의 블로그
-          </h1>
-          <p className="text-gray-600">생각과 경험을 기록하는 공간</p>
-        </div>
+    <div className="min-h-screen flex flex-col">
+      <Nav />
+
+      {/* Hero */}
+      <header className="max-w-[640px] w-full mx-auto px-5 pt-20 pb-16 animate-fade-up stagger-1">
+        <p className="text-sm text-accent font-medium mb-4 tracking-wide">블로그</p>
+        <h1 className="font-lora text-3xl sm:text-4xl font-bold text-foreground leading-[1.3] tracking-tight mb-4">
+          생각과 경험을 기록합니다.
+        </h1>
+        <p className="text-base text-muted leading-relaxed">
+          개발, 디자인, 그리고 일상에 대한 이야기.
+        </p>
       </header>
 
-      <main className="max-w-3xl mx-auto px-6 py-12">
-        <div className="space-y-12">
+      {/* Posts */}
+      <main className="max-w-[640px] w-full mx-auto px-5 pb-24 flex-1">
+        <div className="animate-fade-up stagger-2">
+          <h2 className="text-xs font-medium text-muted uppercase tracking-[0.15em] mb-6">
+            최근 글
+          </h2>
+        </div>
+
+        <div className="space-y-0">
           {posts.length === 0 ? (
-            <p className="text-center text-gray-500 py-12">아직 작성된 글이 없습니다.</p>
+            <p className="text-muted py-20 text-center text-sm">
+              아직 작성된 글이 없습니다.
+            </p>
           ) : (
-            posts.map((post) => (
-              <article key={post.slug} className="group">
-                <Link href={`/posts/${post.slug}`} className="block">
-                  <h2 className="font-lora text-3xl font-bold text-gray-900 mb-2 group-hover:text-gray-600 transition-colors">
+            posts.map((post, index) => (
+              <article
+                key={post.slug}
+                className={`animate-fade-up stagger-${Math.min(index + 3, 6)}`}
+              >
+                <Link
+                  href={`/posts/${post.slug}`}
+                  className="group flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-0 py-3 -mx-3 px-3 rounded-lg transition-colors duration-150 hover:bg-surface-hover"
+                >
+                  <span className="font-medium text-foreground group-hover:text-accent transition-colors duration-150 sm:flex-1">
                     {post.title}
-                  </h2>
-                  {post.excerpt && (
-                    <p className="text-gray-600 text-lg mb-3 leading-relaxed">
-                      {post.excerpt}
-                    </p>
-                  )}
-                  <div className="flex items-center gap-3 text-sm text-gray-500">
-                    <time>{post.date}</time>
-                    <span>·</span>
-                    <span>{Math.ceil(post.content.length / 500)} min read</span>
-                  </div>
+                  </span>
+                  <span className="text-sm text-muted tabular-nums sm:ml-4 shrink-0">
+                    {new Date(post.date).toLocaleDateString('ko-KR', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                    })}
+                  </span>
                 </Link>
               </article>
             ))
@@ -43,11 +61,7 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="border-t border-gray-200 mt-20">
-        <div className="max-w-3xl mx-auto px-6 py-8 text-center text-gray-500 text-sm">
-          © 2026 Leo. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
 import { getAllPosts, getPostBySlug } from '@/lib/posts';
 import { remark } from 'remark';
 import html from 'remark-html';
+import Nav from '@/components/nav';
+import Footer from '@/components/footer';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -30,55 +31,48 @@ export default async function Post({ params }: Props) {
   const readingTime = Math.ceil(post.content.length / 500);
 
   return (
-    <div className="min-h-screen bg-white">
-      <header className="border-b border-gray-200">
-        <div className="max-w-3xl mx-auto px-6 py-6">
-          <Link
-            href="/"
-            className="text-gray-600 hover:text-gray-900 transition-colors text-sm"
-          >
-            ← 목록으로
-          </Link>
-        </div>
-      </header>
+    <div className="min-h-screen flex flex-col">
+      <Nav backLink />
 
-      <article className="max-w-3xl mx-auto px-6 py-12">
-        <header className="mb-12">
-          <h1 className="font-lora text-5xl font-bold mb-6 text-gray-900 leading-tight">
+      <article className="max-w-[640px] w-full mx-auto px-5 pt-12 pb-24 flex-1">
+        {/* Post Header */}
+        <header className="mb-10 animate-fade-up stagger-1">
+          <div className="flex items-center gap-2 text-sm text-muted mb-4">
+            <time>
+              {new Date(post.date).toLocaleDateString('ko-KR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </time>
+            <span className="text-border">/</span>
+            <span>{readingTime}분</span>
+          </div>
+          <h1 className="font-lora text-3xl sm:text-4xl font-bold text-foreground leading-[1.3] tracking-tight">
             {post.title}
           </h1>
-          <div className="flex items-center gap-3 text-sm text-gray-500">
-            <time>{post.date}</time>
-            <span>·</span>
-            <span>{readingTime} min read</span>
-          </div>
         </header>
 
+        {/* Content */}
         <div
-          className="prose prose-lg max-w-none
-            font-lora
-            prose-headings:font-lora prose-headings:font-bold prose-headings:text-gray-900
-            prose-h1:text-4xl prose-h1:mt-12 prose-h1:mb-6
-            prose-h2:text-3xl prose-h2:mt-10 prose-h2:mb-4
-            prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-3
-            prose-p:text-gray-800 prose-p:text-xl prose-p:leading-relaxed prose-p:mb-6
-            prose-a:text-gray-900 prose-a:underline prose-a:decoration-gray-400 prose-a:underline-offset-4
-            hover:prose-a:decoration-gray-900
-            prose-strong:text-gray-900 prose-strong:font-bold
-            prose-code:text-gray-800 prose-code:bg-gray-100 prose-code:px-2 prose-code:py-1 prose-code:rounded
-            prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-pre:rounded-lg prose-pre:p-4
-            prose-blockquote:border-l-4 prose-blockquote:border-gray-900 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-700
-            prose-ul:my-6 prose-li:my-2 prose-li:text-xl prose-li:text-gray-800
-            prose-img:rounded-lg prose-img:my-8"
+          className="animate-fade-up stagger-2 prose dark:prose-invert max-w-none
+            prose-headings:font-lora prose-headings:tracking-tight prose-headings:font-bold
+            prose-h2:text-xl prose-h2:mt-10 prose-h2:mb-3
+            prose-h3:text-lg prose-h3:mt-8 prose-h3:mb-2
+            prose-p:text-[15px] prose-p:leading-[1.8] prose-p:text-foreground/80 prose-p:my-4
+            prose-a:text-accent prose-a:no-underline prose-a:font-medium hover:prose-a:underline
+            prose-strong:text-foreground prose-strong:font-semibold
+            prose-code:text-[13px] prose-code:font-mono prose-code:bg-surface prose-code:text-accent prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:border prose-code:border-border prose-code:before:content-none prose-code:after:content-none
+            prose-pre:bg-surface prose-pre:border prose-pre:border-border prose-pre:rounded-xl prose-pre:text-[13px] prose-pre:font-mono
+            prose-blockquote:border-l-2 prose-blockquote:border-accent/40 prose-blockquote:pl-4 prose-blockquote:not-italic prose-blockquote:text-muted prose-blockquote:font-normal
+            prose-ul:my-4 prose-ol:my-4 prose-li:text-[15px] prose-li:text-foreground/80 prose-li:my-1 prose-li:marker:text-accent/50
+            prose-img:rounded-xl prose-img:border prose-img:border-border
+            prose-hr:border-border"
           dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
       </article>
 
-      <footer className="border-t border-gray-200 mt-20">
-        <div className="max-w-3xl mx-auto px-6 py-8 text-center text-gray-500 text-sm">
-          © 2026 Leo. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
