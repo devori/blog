@@ -8,6 +8,7 @@ export interface PostData {
   slug: string;
   title: string;
   date: string;
+  tags: string[];
   excerpt?: string;
   content: string;
 }
@@ -29,10 +30,13 @@ export function getAllPosts(): PostData[] {
       const rawDate = (data as any).date;
       const date = normalizeDate(rawDate);
 
+      const tags = normalizeTags((data as any).tags);
+
       return {
         slug,
         title: data.title || slug,
         date,
+        tags,
         excerpt: data.excerpt || '',
         content,
       };
@@ -65,6 +69,23 @@ function normalizeDate(value: unknown): string {
   }
 }
 
+function normalizeTags(value: unknown): string[] {
+  if (!value) return [];
+  if (Array.isArray(value)) {
+    return value
+      .map((v) => String(v).trim())
+      .filter(Boolean);
+  }
+  if (typeof value === 'string') {
+    // allow "tag1, tag2" shorthand
+    return value
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
+  }
+  return [String(value)].map((s) => s.trim()).filter(Boolean);
+}
+
 export function getPostBySlug(slug: string): PostData | null {
   try {
     const fullPath = path.join(postsDirectory, `${slug}.md`);
@@ -74,10 +95,13 @@ export function getPostBySlug(slug: string): PostData | null {
     const rawDate = (data as any).date;
     const date = normalizeDate(rawDate);
 
+    const tags = normalizeTags((data as any).tags);
+
     return {
       slug,
       title: data.title || slug,
       date,
+      tags,
       excerpt: data.excerpt || '',
       content,
     };

@@ -2,6 +2,7 @@
 title: "OpenClaw란 무엇인가: “말 잘하는 AI”를 “일하는 AI”로 바꾸는 런타임"
 date: 2026-02-14
 excerpt: "질문하면 답은 잘 나온다. 그런데 “그 다음”이 없다. 실행은 결국 사람이 한다. 파일을 열고, 앱을 켜고, 캘린더를 확인하고, 정리해서 공유한다."
+tags: ["openclaw"]
 ---
 
 > Note: 이 글은 OpenClaw를 “설정 가이드”가 아니라 “개념/가능성 분석”으로 소개합니다. 연결/모델 설정은 먼저 [OpenClaw 모델 연결 가이드](https://blog.devori.app/posts/openclaw-model-setup)를 참고하세요.

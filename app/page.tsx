@@ -3,8 +3,20 @@ import { getAllPosts } from '@/lib/posts';
 import Nav from '@/components/nav';
 import Footer from '@/components/footer';
 
-export default function Home() {
+export default function Home({
+  searchParams,
+}: {
+  searchParams?: { tag?: string };
+}) {
   const posts = getAllPosts();
+  const selectedTag = searchParams?.tag;
+  const filteredPosts = selectedTag
+    ? posts.filter((p) => p.tags?.includes(selectedTag))
+    : posts;
+
+  const allTags = Array.from(
+    new Set(posts.flatMap((p) => p.tags || []))
+  ).sort((a, b) => a.localeCompare(b));
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -24,18 +36,48 @@ export default function Home() {
       {/* Posts */}
       <main className="max-w-[640px] w-full mx-auto px-5 pb-24 flex-1">
         <div className="animate-fade-up stagger-2">
-          <h2 className="text-xs font-medium text-muted uppercase tracking-[0.15em] mb-6">
+          <h2 className="text-xs font-medium text-muted uppercase tracking-[0.15em] mb-4">
             최근 글
           </h2>
+
+          {allTags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-6">
+              <Link
+                href="/"
+                className={`text-xs px-2 py-1 rounded-md border transition-colors ${
+                  !selectedTag
+                    ? 'border-accent text-accent'
+                    : 'border-border text-muted hover:text-foreground'
+                }`}
+              >
+                전체
+              </Link>
+              {allTags.map((tag) => (
+                <Link
+                  key={tag}
+                  href={`/?tag=${encodeURIComponent(tag)}`}
+                  className={`text-xs px-2 py-1 rounded-md border transition-colors ${
+                    selectedTag === tag
+                      ? 'border-accent text-accent'
+                      : 'border-border text-muted hover:text-foreground'
+                  }`}
+                >
+                  {tag}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="space-y-0">
-          {posts.length === 0 ? (
+          {filteredPosts.length === 0 ? (
             <p className="text-muted py-20 text-center text-sm">
-              아직 작성된 글이 없습니다.
+              {selectedTag
+                ? `"${selectedTag}" 태그 글이 없습니다.`
+                : '아직 작성된 글이 없습니다.'}
             </p>
           ) : (
-            posts.map((post, index) => (
+            filteredPosts.map((post, index) => (
               <article
                 key={post.slug}
                 className={`animate-fade-up stagger-${Math.min(index + 3, 6)}`}
