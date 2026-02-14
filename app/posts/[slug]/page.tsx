@@ -6,6 +6,7 @@ import html from 'remark-html';
 import Nav from '@/components/nav';
 import Footer from '@/components/footer';
 import MermaidRender from '@/components/mermaid-render';
+import GiscusComments from '@/components/giscus-comments';
 import { SITE_URL, SITE_NAME } from '@/lib/constants';
 
 type Props = {
@@ -140,6 +141,8 @@ export default async function Post({ params }: Props) {
             prose-hr:border-border"
           dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
+
+        <GiscusComments />
       </article>
 
       <Footer />
