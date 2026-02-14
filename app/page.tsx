@@ -73,13 +73,14 @@ export default async function Home({
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="h-screen flex flex-col overflow-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Nav />
 
+      <main className="flex-1 overflow-y-auto">
       {/* Hero */}
       <header className="max-w-[640px] w-full mx-auto px-5 pt-20 pb-16 animate-fade-up stagger-1">
         <p className="text-sm text-accent font-medium mb-4 tracking-wide">블로그</p>
@@ -92,7 +93,7 @@ export default async function Home({
       </header>
 
       {/* Posts */}
-      <main className="max-w-[640px] w-full mx-auto px-5 pb-24 flex-1">
+      <section className="max-w-[640px] w-full mx-auto px-5 pb-24">
         <div className="animate-fade-up stagger-2">
           <h2 className="text-xs font-medium text-muted uppercase tracking-[0.15em] mb-4">
             최근 글
@@ -173,6 +174,7 @@ export default async function Home({
             ))
           )}
         </div>
+      </section>
       </main>
 
       <Footer />

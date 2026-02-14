@@ -82,14 +82,15 @@ export default async function Post({ params }: Props) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="h-screen flex flex-col overflow-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Nav backLink />
 
-      <article className="max-w-[640px] w-full mx-auto px-5 pt-12 pb-24 flex-1">
+      <main className="flex-1 overflow-y-auto">
+      <article className="max-w-[640px] w-full mx-auto px-5 pt-12 pb-24">
         {/* Post Header */}
         <header className="mb-10 animate-fade-up stagger-1">
           <div className="flex items-center gap-2 text-sm text-muted mb-4">
@@ -141,6 +142,7 @@ export default async function Post({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
       </article>
+      </main>
 
       <Footer />
     </div>
