@@ -142,12 +142,26 @@ export default async function Home({
               >
                 <Link
                   href={`/posts/${post.slug}`}
-                  className="group flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-0 py-3 -mx-3 px-3 rounded-lg transition-colors duration-150 hover:bg-surface-hover"
+                  className="group flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-0 py-3 -mx-3 px-3 rounded-lg transition-colors duration-150 hover:bg-surface-hover"
                 >
-                  <span className="font-medium text-foreground group-hover:text-accent transition-colors duration-150 sm:flex-1">
-                    {post.title}
-                  </span>
-                  <span className="text-sm text-muted tabular-nums sm:ml-4 shrink-0">
+                  <div className="sm:flex-1 min-w-0">
+                    <span className="font-medium text-foreground group-hover:text-accent transition-colors duration-150 block">
+                      {post.title}
+                    </span>
+                    {post.tags?.length > 0 && (
+                      <div className="mt-1 flex flex-wrap gap-1.5">
+                        {post.tags.map((tag) => (
+                          <span
+                            key={`${post.slug}-${tag}`}
+                            className="text-[11px] leading-5 px-1.5 rounded-md border border-border text-muted"
+                          >
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <span className="text-sm text-muted tabular-nums sm:ml-4 shrink-0 sm:pt-0.5">
                     {new Date(post.date).toLocaleDateString('ko-KR', {
                       year: 'numeric',
                       month: 'short',

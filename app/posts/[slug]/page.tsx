@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import { getAllPosts, getPostBySlug } from '@/lib/posts';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';import { getAllPosts, getPostBySlug } from '@/lib/posts';
 import { remark } from 'remark';
 import html from 'remark-html';
 import Nav from '@/components/nav';
@@ -106,6 +106,19 @@ export default async function Post({ params }: Props) {
           <h1 className="font-lora text-3xl sm:text-4xl font-bold text-foreground leading-[1.3] tracking-tight">
             {post.title}
           </h1>
+          {post.tags?.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {post.tags.map((tag) => (
+                <Link
+                  key={tag}
+                  href={`/?tag=${encodeURIComponent(tag)}`}
+                  className="text-[11px] leading-5 px-2 rounded-md border border-border text-muted hover:text-foreground hover:border-accent/40 transition-colors"
+                >
+                  #{tag}
+                </Link>
+              ))}
+            </div>
+          )}
         </header>
 
         {/* Content */}
