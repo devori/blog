@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Lora, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/constants";
+import GA4 from "@/components/ga4";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const lora = Lora({ subsets: ["latin"], variable: "--font-lora" });
@@ -60,6 +61,8 @@ const themeScript = `
   })();
 `;
 
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -73,6 +76,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${lora.variable} ${jetbrainsMono.variable} antialiased bg-background text-foreground`}
       >
+        <GA4 measurementId={GA_MEASUREMENT_ID} />
         {children}
       </body>
     </html>
