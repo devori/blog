@@ -7,7 +7,9 @@ series: "OpenClaw 심층 탐구"
 series_no: 2
 ---
 
-> 시리즈: [1편 — OpenClaw란 무엇인가](/posts/openclaw-what-is) · **2편(현재 글)**
+> 시리즈: OpenClaw 심층 탐구
+> - 1편: [OpenClaw란 무엇인가](/posts/openclaw-what-is)
+> - 2편 ✅ 현재
 
 > Note: 이 글은 OpenClaw를 GitHub 코드 관점에서 “구조적으로” 이해하기 위한 분석 글이다. 문서/레포: https://docs.openclaw.ai · https://github.com/openclaw/openclaw
 
