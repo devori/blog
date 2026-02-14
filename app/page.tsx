@@ -1,7 +1,48 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getAllPosts } from '@/lib/posts';
 import Nav from '@/components/nav';
 import Footer from '@/components/footer';
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/constants';
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams?: Promise<{ tag?: string | string[] }>;
+}): Promise<Metadata> {
+  const resolved = await searchParams;
+  const rawTag = resolved?.tag;
+  const selectedTag = Array.isArray(rawTag) ? rawTag[0] : rawTag;
+
+  const title = selectedTag
+    ? `${selectedTag} 태그 글`
+    : '생각과 경험을 기록합니다';
+  const description = selectedTag
+    ? `"${selectedTag}" 태그로 분류된 글 목록입니다.`
+    : SITE_DESCRIPTION;
+  const canonical = selectedTag
+    ? `${SITE_URL}/?tag=${encodeURIComponent(selectedTag)}`
+    : SITE_URL;
+
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      type: 'website',
+      url: canonical,
+      siteName: SITE_NAME,
+      title: selectedTag ? `${selectedTag} | ${SITE_NAME}` : SITE_NAME,
+      description,
+      locale: 'ko_KR',
+    },
+    twitter: {
+      card: 'summary',
+      title: selectedTag ? `${selectedTag} | ${SITE_NAME}` : SITE_NAME,
+      description,
+    },
+  };
+}
 
 export default async function Home({
   searchParams,
@@ -20,8 +61,23 @@ export default async function Home({
     new Set(posts.flatMap((p) => p.tags || []))
   ).sort((a, b) => a.localeCompare(b));
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    url: selectedTag
+      ? `${SITE_URL}/?tag=${encodeURIComponent(selectedTag)}`
+      : SITE_URL,
+    inLanguage: 'ko-KR',
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Nav />
 
       {/* Hero */}

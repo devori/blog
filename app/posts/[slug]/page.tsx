@@ -30,6 +30,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: post.title,
     description: post.excerpt,
+    keywords: post.tags,
+    authors: [{ name: 'Leo' }],
     alternates: { canonical: url },
     openGraph: {
       type: 'article',
@@ -39,6 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: SITE_NAME,
       publishedTime: post.date,
       locale: 'ko_KR',
+      tags: post.tags,
     },
     twitter: {
       card: 'summary',
@@ -68,7 +71,10 @@ export default async function Post({ params }: Props) {
     headline: post.title,
     description: post.excerpt,
     datePublished: post.date,
+    dateModified: post.date,
     url: `${SITE_URL}/posts/${slug}`,
+    inLanguage: 'ko-KR',
+    keywords: post.tags,
     author: {
       '@type': 'Person',
       name: 'Leo',
