@@ -5,6 +5,7 @@ import { remark } from 'remark';
 import html from 'remark-html';
 import Nav from '@/components/nav';
 import Footer from '@/components/footer';
+import MermaidRender from '@/components/mermaid-render';
 import { SITE_URL, SITE_NAME } from '@/lib/constants';
 
 type Props = {
@@ -102,7 +103,9 @@ export default async function Post({ params }: Props) {
         </header>
 
         {/* Content */}
+        <MermaidRender rootId="post-content" />
         <div
+          id="post-content"
           className="animate-fade-up stagger-2 prose dark:prose-invert max-w-none
             prose-headings:font-lora prose-headings:tracking-tight prose-headings:font-bold
             prose-h2:text-xl prose-h2:mt-10 prose-h2:mb-3

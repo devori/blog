@@ -75,6 +75,15 @@ html {
   background: var(--muted);
 }
 
+/* Mermaid */
+.prose .mermaid {
+  margin: 1.25rem 0;
+}
+.prose .mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
 /* Animations */
 @keyframes fade-up {
   from {
