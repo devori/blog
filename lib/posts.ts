@@ -2,6 +2,13 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
+type Frontmatter = {
+  title?: string;
+  date?: unknown;
+  tags?: unknown;
+  excerpt?: string;
+};
+
 const postsDirectory = path.join(process.cwd(), 'posts');
 
 export interface PostData {
@@ -26,18 +33,17 @@ export function getAllPosts(): PostData[] {
       const fullPath = path.join(postsDirectory, fileName);
       const fileContents = fs.readFileSync(fullPath, 'utf8');
       const { data, content } = matter(fileContents);
+      const fm = data as Frontmatter;
 
-      const rawDate = (data as any).date;
-      const date = normalizeDate(rawDate);
-
-      const tags = normalizeTags((data as any).tags);
+      const date = normalizeDate(fm.date);
+      const tags = normalizeTags(fm.tags);
 
       return {
         slug,
-        title: data.title || slug,
+        title: fm.title || slug,
         date,
         tags,
-        excerpt: data.excerpt || '',
+        excerpt: fm.excerpt || '',
         content,
       };
     });
@@ -91,18 +97,17 @@ export function getPostBySlug(slug: string): PostData | null {
     const fullPath = path.join(postsDirectory, `${slug}.md`);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
+    const fm = data as Frontmatter;
 
-    const rawDate = (data as any).date;
-    const date = normalizeDate(rawDate);
-
-    const tags = normalizeTags((data as any).tags);
+    const date = normalizeDate(fm.date);
+    const tags = normalizeTags(fm.tags);
 
     return {
       slug,
-      title: data.title || slug,
+      title: fm.title || slug,
       date,
       tags,
-      excerpt: data.excerpt || '',
+      excerpt: fm.excerpt || '',
       content,
     };
   } catch {

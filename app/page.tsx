@@ -3,13 +3,15 @@ import { getAllPosts } from '@/lib/posts';
 import Nav from '@/components/nav';
 import Footer from '@/components/footer';
 
-export default function Home({
+export default async function Home({
   searchParams,
 }: {
-  searchParams?: { tag?: string };
+  searchParams?: Promise<{ tag?: string | string[] }>;
 }) {
   const posts = getAllPosts();
-  const selectedTag = searchParams?.tag;
+  const resolvedSearchParams = await searchParams;
+  const rawTag = resolvedSearchParams?.tag;
+  const selectedTag = Array.isArray(rawTag) ? rawTag[0] : rawTag;
   const filteredPosts = selectedTag
     ? posts.filter((p) => p.tags?.includes(selectedTag))
     : posts;

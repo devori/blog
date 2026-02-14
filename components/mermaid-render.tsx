@@ -42,14 +42,14 @@ export default function MermaidRender({ rootId }: Props) {
       if (!pre) continue;
 
       // Avoid double-render on client navigations.
-      if ((pre as any).__mermaid_done) continue;
-      (pre as any).__mermaid_done = true;
+      if (pre.getAttribute('data-mermaid-done') === 'true') continue;
+      pre.setAttribute('data-mermaid-done', 'true');
 
       const container = document.createElement('div');
       container.className = 'mermaid';
       const def = code.textContent ?? '';
       container.textContent = def;
-      (container as any).__mermaid_def = def;
+      container.setAttribute('data-mermaid-def', def);
 
       pre.replaceWith(container);
     }
@@ -61,7 +61,7 @@ export default function MermaidRender({ rootId }: Props) {
       const blocks = root.querySelectorAll('.mermaid');
       if (!blocks.length) return;
       blocks.forEach((el) => {
-        const def = (el as any).__mermaid_def as string | undefined;
+        const def = el.getAttribute('data-mermaid-def');
         if (def) el.textContent = def;
       });
       // Mermaid will re-render when run() is called again below.

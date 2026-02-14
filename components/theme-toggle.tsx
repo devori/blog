@@ -7,10 +7,14 @@ export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-    // Sync state with what the flash-prevention script already set
-    const isDark = document.documentElement.classList.contains('dark');
-    setTheme(isDark ? 'dark' : 'light');
+    const id = window.requestAnimationFrame(() => {
+      setMounted(true);
+      // Sync state with what the flash-prevention script already set
+      const isDark = document.documentElement.classList.contains('dark');
+      setTheme(isDark ? 'dark' : 'light');
+    });
+
+    return () => window.cancelAnimationFrame(id);
   }, []);
 
   const toggle = () => {
