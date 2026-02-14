@@ -26,16 +26,43 @@ export function getAllPosts(): PostData[] {
       const fileContents = fs.readFileSync(fullPath, 'utf8');
       const { data, content } = matter(fileContents);
 
+      const rawDate = (data as any).date;
+      const date = normalizeDate(rawDate);
+
       return {
         slug,
         title: data.title || slug,
-        date: data.date || '',
+        date,
         excerpt: data.excerpt || '',
         content,
       };
     });
 
-  return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1));
+  return allPostsData.sort((a, b) => {
+    const at = Date.parse(a.date || '');
+    const bt = Date.parse(b.date || '');
+    if (Number.isNaN(at) && Number.isNaN(bt)) return 0;
+    if (Number.isNaN(at)) return 1;
+    if (Number.isNaN(bt)) return -1;
+    return bt - at;
+  });
+}
+
+function normalizeDate(value: unknown): string {
+  // Accept common frontmatter formats:
+  // - "YYYY-MM-DD"
+  // - Date object (yaml date)
+  // - number timestamp
+  if (!value) return '';
+  if (typeof value === 'string') return value;
+  if (value instanceof Date) return value.toISOString();
+  if (typeof value === 'number') return new Date(value).toISOString();
+  // Fallback: stringify
+  try {
+    return String(value);
+  } catch {
+    return '';
+  }
 }
 
 export function getPostBySlug(slug: string): PostData | null {
@@ -44,10 +71,13 @@ export function getPostBySlug(slug: string): PostData | null {
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
 
+    const rawDate = (data as any).date;
+    const date = normalizeDate(rawDate);
+
     return {
       slug,
       title: data.title || slug,
-      date: data.date || '',
+      date,
       excerpt: data.excerpt || '',
       content,
     };
