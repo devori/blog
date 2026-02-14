@@ -10,6 +10,38 @@ Claude Opus 같은 최고급 모델을 쓰면 똑똑하긴 한데 지갑이 아�
 
 OpenClaw의 **Failover(자동 전환)** 기능은 이 고민을 깔끔하게 해결한다. 평소엔 무료 모델로 대부분의 작업을 처리하고, 정말 필요한 순간에만 프리미엄 모델이 자동으로 등판하는 구조다.
 
+## 설치 & 기본 설정 (먼저 이것부터)
+
+이 글의 핵심은 “모델 연결(Primary/Fallback)”이지만, 그 전에 OpenClaw 자체를 설치하고 게이트웨이를 띄워야 한다.
+
+### 1) 설치
+
+Node **22+** 기준으로 가장 간단한 방법은 CLI 설치 후 온보딩 위저드를 돌리는 것이다.
+
+```bash
+npm install -g openclaw@latest
+openclaw onboard --install-daemon
+```
+
+- 위 명령은 Gateway(데몬)를 설치해서 백그라운드로 계속 돌게 해준다.
+- macOS를 쓰면 OpenClaw.app(메뉴바 앱) 쪽에서 권한(알림/스크린 등)도 같이 챙기는 게 편하다.
+
+### 2) 채널(예: Telegram) 연결
+
+OpenClaw는 “내가 이미 쓰는 채널에서” 답장해주는 게 장점이다.
+
+- Telegram을 쓰는 경우: BotFather로 봇을 만들고 토큰을 넣은 뒤 페어링하면 된다.
+- 세부 단계는 공식 가이드가 제일 안전하다: https://docs.openclaw.ai/start/getting-started
+
+### 3) 모델 인증 준비 (Gemini / Claude)
+
+모델을 연결하려면 각 프로바이더 인증이 필요하다.
+
+- Gemini: API Key
+- Claude(Anthropic): 토큰/플랜(유료)
+
+여기까지 끝났으면 이제 이 글의 본론인 “모델을 여러 개 연결해서 자동 전환”을 세팅할 준비가 됐다.
+
 ## 왜 모델을 여러 개 연결해야 할까?
 
 단일 모델만 사용하면 예상치 못한 문제에 부딪힌다.
