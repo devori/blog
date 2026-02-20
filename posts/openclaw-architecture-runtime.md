@@ -13,8 +13,6 @@ series_no: 2
 
 > Note: 이 글은 OpenClaw를 GitHub 코드 관점에서 “구조적으로” 이해하기 위한 분석 글이다. 문서/레포: https://docs.openclaw.ai · https://github.com/openclaw/openclaw
 
-# OpenClaw 아키텍처 한 번에 이해하기: Gateway가 ‘런타임’인 이유
-
 OpenClaw를 처음 쓰면 이렇게 느끼기 쉽다.
 
 - “모델이 똑똑해서” 일이 된다
