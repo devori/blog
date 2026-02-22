@@ -85,12 +85,12 @@ web_fetch 결과: "Seoul: +2°C, Light rain"  # 예시
 
 ```mermaid
 flowchart TB
-  U[User text\n"날씨 알려줘"] --> M
-  W[Workspace context\nSOUL/USER/memory/skills] --> M
-  S[System/runtime context\nchannel/session/policy] --> M
-  T[Tool schema\n(web_fetch, read, exec...)] --> M
-  R[Tool results\n(조회 결과, 파일 읽기 결과...)] --> M
-  M[LLM input\n(합쳐져서 모델 호출로 들어감)]
+  U[User text\n날씨 알려줘] --> M
+  W[Workspace context\nSOUL, USER, memory, skills] --> M
+  S[System/runtime context\nchannel, session, policy] --> M
+  T[Tool schema\nweb_fetch, read, exec...] --> M
+  R[Tool results\n조회 결과, 파일 읽기 결과...] --> M
+  M[LLM input\n합쳐져서 모델 호출로 들어감]
 ```
 
 요지는 단순하다. 유저 문장만 모델에 들어가는 게 아니라, “운영 컨텍스트(세션/정책) + 할 수 있는 행동(도구) + 작업 근거(툴 결과)”까지 함께 들어가서 모델의 판단을 만든다.
