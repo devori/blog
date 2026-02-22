@@ -10,6 +10,7 @@ series_no: 2
 > 시리즈: OpenClaw 심층 탐구
 > - 1편: [OpenClaw란 무엇인가](/posts/openclaw-what-is)
 > - 2편 ✅ 현재
+> - 3편: [OpenClaw 프롬프트 한 번에 이해하기](/posts/openclaw-prompt-runtime-trace)
 
 > Note: 이 글은 OpenClaw를 GitHub 코드 관점에서 “구조적으로” 이해하기 위한 분석 글이다. 문서/레포: https://docs.openclaw.ai · https://github.com/openclaw/openclaw
 

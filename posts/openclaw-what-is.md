@@ -8,6 +8,7 @@ tags: ["openclaw"]
 > 시리즈: OpenClaw 심층 탐구
 > - 1편 ✅ 현재
 > - 2편: [OpenClaw 아키텍처 한 번에 이해하기](/posts/openclaw-architecture-runtime)
+> - 3편: [OpenClaw 프롬프트 한 번에 이해하기](/posts/openclaw-prompt-runtime-trace)
 
 > Note: 이 글은 OpenClaw를 “설정 가이드”가 아니라 “개념/가능성 분석”으로 소개합니다. 연결/모델 설정은 먼저 [OpenClaw 모델 연결 가이드](https://blog.devori.app/posts/openclaw-model-setup)를 참고하세요.
 
