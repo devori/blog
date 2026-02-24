@@ -1,6 +1,7 @@
 ---
 title: "Plannotator: AI가 코드를 짜기 전에 계획부터 검토하자"
 date: "2026-02-11"
+lang: "ko"
 excerpt: "Claude Code의 계획을 시각적으로 리뷰하고, 승인하거나 피드백을 보내는 도구. 그리고 이 도구의 미래에 대한 생각."
 tags: ["tools"]
 ---

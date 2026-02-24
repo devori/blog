@@ -2,11 +2,14 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
+export type PostLang = 'en' | 'ko';
+
 type Frontmatter = {
   title?: string;
   date?: unknown;
   tags?: unknown;
   excerpt?: string;
+  lang?: unknown;
 };
 
 const postsDirectory = path.join(process.cwd(), 'posts');
@@ -18,37 +21,15 @@ export interface PostData {
   tags: string[];
   excerpt?: string;
   content: string;
+  lang: PostLang;
 }
 
 export function getAllPosts(): PostData[] {
-  if (!fs.existsSync(postsDirectory)) {
-    return [];
-  }
+  const posts = getAllSlugs()
+    .map((slug) => getPostBySlug(slug, 'en'))
+    .filter((post): post is PostData => post !== null);
 
-  const fileNames = fs.readdirSync(postsDirectory);
-  const allPostsData = fileNames
-    .filter((fileName) => fileName.endsWith('.md'))
-    .map((fileName) => {
-      const slug = fileName.replace(/\.md$/, '');
-      const fullPath = path.join(postsDirectory, fileName);
-      const fileContents = fs.readFileSync(fullPath, 'utf8');
-      const { data, content } = matter(fileContents);
-      const fm = data as Frontmatter;
-
-      const date = normalizeDate(fm.date);
-      const tags = normalizeTags(fm.tags);
-
-      return {
-        slug,
-        title: fm.title || slug,
-        date,
-        tags,
-        excerpt: fm.excerpt || '',
-        content,
-      };
-    });
-
-  return allPostsData.sort((a, b) => {
+  return posts.sort((a, b) => {
     const at = Date.parse(a.date || '');
     const bt = Date.parse(b.date || '');
     if (Number.isNaN(at) && Number.isNaN(bt)) return 0;
@@ -56,6 +37,27 @@ export function getAllPosts(): PostData[] {
     if (Number.isNaN(bt)) return -1;
     return bt - at;
   });
+}
+
+export function getAllSlugs(): string[] {
+  if (!fs.existsSync(postsDirectory)) {
+    return [];
+  }
+
+  const slugs = new Set<string>();
+  const fileNames = fs.readdirSync(postsDirectory);
+
+  for (const fileName of fileNames) {
+    if (fileName.endsWith('.ko.md')) {
+      slugs.add(fileName.slice(0, -'.ko.md'.length));
+      continue;
+    }
+    if (fileName.endsWith('.md')) {
+      slugs.add(fileName.slice(0, -'.md'.length));
+    }
+  }
+
+  return Array.from(slugs).sort((a, b) => a.localeCompare(b));
 }
 
 function normalizeDate(value: unknown): string {
@@ -92,15 +94,26 @@ function normalizeTags(value: unknown): string[] {
   return [String(value)].map((s) => s.trim()).filter(Boolean);
 }
 
-export function getPostBySlug(slug: string): PostData | null {
-  try {
-    const fullPath = path.join(postsDirectory, `${slug}.md`);
+export function getPostBySlug(slug: string, preferLang: PostLang = 'en'): PostData | null {
+  const candidates =
+    preferLang === 'ko'
+      ? [`${slug}.ko.md`, `${slug}.md`]
+      : [`${slug}.md`, `${slug}.ko.md`];
+
+  for (const fileName of candidates) {
+    const fullPath = path.join(postsDirectory, fileName);
+    if (!fs.existsSync(fullPath)) {
+      continue;
+    }
+
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
     const fm = data as Frontmatter;
 
     const date = normalizeDate(fm.date);
     const tags = normalizeTags(fm.tags);
+    const inferredLang: PostLang = fileName.endsWith('.ko.md') ? 'ko' : 'en';
+    const lang = normalizeLang(fm.lang, inferredLang);
 
     return {
       slug,
@@ -109,8 +122,16 @@ export function getPostBySlug(slug: string): PostData | null {
       tags,
       excerpt: fm.excerpt || '',
       content,
+      lang,
     };
-  } catch {
-    return null;
   }
+
+  return null;
+}
+
+function normalizeLang(value: unknown, fallback: PostLang): PostLang {
+  if (value === 'en' || value === 'ko') {
+    return value;
+  }
+  return fallback;
 }

@@ -22,12 +22,12 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug, 'en');
+  const post = getPostBySlug(slug, 'ko');
 
   if (!post) return {};
 
-  const url = `${SITE_URL}/posts/${slug}`;
-  const koUrl = `${SITE_URL}/ko/posts/${slug}`;
+  const url = `${SITE_URL}/ko/posts/${slug}`;
+  const enUrl = `${SITE_URL}/posts/${slug}`;
   const locale = post.lang === 'ko' ? 'ko_KR' : 'en_US';
 
   return {
@@ -38,8 +38,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: {
       canonical: url,
       languages: {
-        en: url,
-        ko: koUrl,
+        en: enUrl,
+        ko: url,
       },
     },
     openGraph: {
@@ -62,15 +62,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Post({ params }: Props) {
   const { slug } = await params;
-  const post = getPostBySlug(slug, 'en');
+  const post = getPostBySlug(slug, 'ko');
 
   if (!post) {
     notFound();
   }
 
-  const processedContent = await remark()
-    .use(html)
-    .process(post.content);
+  const processedContent = await remark().use(html).process(post.content);
   const contentHtml = processedContent.toString();
   const readingTime = Math.ceil(post.content.length / 500);
   const dateLocale = post.lang === 'ko' ? 'ko-KR' : 'en-US';
@@ -84,7 +82,7 @@ export default async function Post({ params }: Props) {
     description: post.excerpt,
     datePublished: post.date,
     dateModified: post.date,
-    url: `${SITE_URL}/posts/${slug}`,
+    url: `${SITE_URL}/ko/posts/${slug}`,
     inLanguage,
     keywords: post.tags,
     author: {
@@ -102,7 +100,6 @@ export default async function Post({ params }: Props) {
       <Nav backLink />
 
       <article className="max-w-[640px] w-full mx-auto px-5 pt-12 pb-24 flex-1">
-        {/* Post Header */}
         <header className="mb-10 animate-fade-up stagger-1">
           <div className="flex items-center gap-2 text-sm text-muted mb-4">
             <time>
@@ -133,7 +130,6 @@ export default async function Post({ params }: Props) {
           )}
         </header>
 
-        {/* Content */}
         <MermaidRender rootId="post-content" />
         <div
           id="post-content"

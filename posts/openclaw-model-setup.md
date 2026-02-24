@@ -1,6 +1,7 @@
 ---
 title: "OpenClaw 모델 연결 가이드: 무료로 시작해서 똑똑하게 확장하기"
 date: "2026-02-10"
+lang: "ko"
 excerpt: "Gemini 무료 티어를 메인으로 쓰면서, 필요할 때만 Claude Opus로 전환하는 스마트한 AI 비서 세팅법"
 tags: ["openclaw"]
 ---

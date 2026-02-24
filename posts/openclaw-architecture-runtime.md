@@ -1,6 +1,7 @@
 ---
 title: "OpenClaw 아키텍처 한 번에 이해하기: Gateway가 ‘런타임’인 이유"
 date: 2026-02-14
+lang: "ko"
 excerpt: "OpenClaw의 핵심은 LLM이 아니라, 그걸 ‘안정적으로 굴리는 런타임(Gateway)’이다."
 tags: ["openclaw"]
 series: "OpenClaw 심층 탐구"
