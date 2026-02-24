@@ -15,10 +15,10 @@ export async function generateMetadata({
   const selectedTag = Array.isArray(rawTag) ? rawTag[0] : rawTag;
 
   const title = selectedTag
-    ? `${selectedTag} 태그 글`
-    : '생각과 경험을 기록합니다';
+    ? `Posts tagged: ${selectedTag}`
+    : 'Writing down thoughts and experiences';
   const description = selectedTag
-    ? `"${selectedTag}" 태그로 분류된 글 목록입니다.`
+    ? `A list of posts tagged with "${selectedTag}".`
     : SITE_DESCRIPTION;
   const canonical = selectedTag
     ? `${SITE_URL}/?tag=${encodeURIComponent(selectedTag)}`
@@ -34,7 +34,7 @@ export async function generateMetadata({
       siteName: SITE_NAME,
       title: selectedTag ? `${selectedTag} | ${SITE_NAME}` : SITE_NAME,
       description,
-      locale: 'ko_KR',
+      locale: 'en_US',
     },
     twitter: {
       card: 'summary',
@@ -69,7 +69,7 @@ export default async function Home({
     url: selectedTag
       ? `${SITE_URL}/?tag=${encodeURIComponent(selectedTag)}`
       : SITE_URL,
-    inLanguage: 'ko-KR',
+    inLanguage: 'en-US',
   };
 
   return (
@@ -82,12 +82,12 @@ export default async function Home({
 
       {/* Hero */}
       <header className="max-w-[640px] w-full mx-auto px-5 pt-20 pb-16 animate-fade-up stagger-1">
-        <p className="text-sm text-accent font-medium mb-4 tracking-wide">블로그</p>
+        <p className="text-sm text-accent font-medium mb-4 tracking-wide">Blog</p>
         <h1 className="font-lora text-3xl sm:text-4xl font-bold text-foreground leading-[1.3] tracking-tight mb-4">
-          생각과 경험을 기록합니다.
+          Writing down thoughts and experiences.
         </h1>
         <p className="text-base text-muted leading-relaxed">
-          개발, 디자인, 그리고 일상에 대한 이야기.
+          Notes on development, design, and everyday life.
         </p>
       </header>
 
@@ -95,7 +95,7 @@ export default async function Home({
       <main className="max-w-[640px] w-full mx-auto px-5 pb-24 flex-1">
         <div className="animate-fade-up stagger-2">
           <h2 className="text-xs font-medium text-muted uppercase tracking-[0.15em] mb-4">
-            최근 글
+            Recent posts
           </h2>
 
           {allTags.length > 0 && (
@@ -108,7 +108,7 @@ export default async function Home({
                     : 'border-border text-muted hover:text-foreground'
                 }`}
               >
-                전체
+                All
               </Link>
               {allTags.map((tag) => (
                 <Link
@@ -131,8 +131,8 @@ export default async function Home({
           {filteredPosts.length === 0 ? (
             <p className="text-muted py-20 text-center text-sm">
               {selectedTag
-                ? `"${selectedTag}" 태그 글이 없습니다.`
-                : '아직 작성된 글이 없습니다.'}
+                ? `No posts found for tag: "${selectedTag}".`
+                : 'No posts yet.'}
             </p>
           ) : (
             filteredPosts.map((post, index) => (
@@ -162,7 +162,7 @@ export default async function Home({
                     )}
                   </div>
                   <span className="text-sm text-muted tabular-nums sm:ml-4 shrink-0 sm:pt-0.5">
-                    {new Date(post.date).toLocaleDateString('ko-KR', {
+                    {new Date(post.date).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'short',
                       day: 'numeric',
