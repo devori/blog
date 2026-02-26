@@ -13,6 +13,7 @@ series_no: 1
 
 > 시리즈: OpenClaw 운영
 > - 1편 ✅ 현재: 업무/개인 비서 분리(프로필 2개)
+> - 2편: [안전 운영(삭제 실수 방지 + Rescue 복구)](/ko/posts/openclaw-safety-approvals-rescue)
 
 “비서를 더 똑똑하게 만드는 방법”보다, “비서가 실수하지 않게 만드는 방법”이 먼저 필요할 때가 있다.
 

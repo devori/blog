@@ -12,6 +12,7 @@ series_no: 1
 
 > Series: OpenClaw Ops
 > - Part 1 ✅ (this post)
+> - Part 2: [Safety ops (approvals + rescue)](/posts/openclaw-safety-approvals-rescue)
 
 Sometimes the best improvement isn’t “make the assistant smarter.”
 It’s “make the assistant less likely to do something you’ll regret.”
