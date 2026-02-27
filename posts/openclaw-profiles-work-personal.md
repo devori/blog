@@ -1,172 +1,176 @@
 ---
-title: "Understanding OpenClaw Profiles in One Go: Split Work vs Personal Assistants on One PC"
+title: "OpenClaw 프로필 한 번에 이해하기: 한 PC에서 업무/개인 비서를 분리하는 이유"
 date: 2026-02-23
-lang: "en"
-excerpt: "If you run work and personal in one assistant, it eventually gets mixed. This post shows a simple setup: two Telegram chats + two assistants (two OpenClaw profiles) to reduce mistakes and review fatigue."
+lang: "ko"
+excerpt: "업무와 개인을 한 비서에 몰아넣으면 결국 섞입니다. 텔레그램 ‘방’ 2개 + 비서 2명(프로필 2개)으로 실수와 검수 피로를 줄이는 방법을 정리합니다."
 tags: ["openclaw", "ops"]
-series: "OpenClaw Ops"
+series: "OpenClaw 운영"
 series_no: 1
 ---
 
-> Language: **English** | [한국어](/ko/posts/openclaw-profiles-work-personal)
 
-> Series: OpenClaw Ops
-> - Part 1 ✅ (this post)
-> - Part 2: [Safety ops (approvals + rescue)](/posts/openclaw-safety-approvals-rescue)
 
-Sometimes the best improvement isn’t “make the assistant smarter.”
-It’s “make the assistant less likely to do something you’ll regret.”
+> 시리즈: OpenClaw 운영
+> - 1편 ✅ 현재: 업무/개인 비서 분리(프로필 2개)
+> - 2편: [안전 운영(삭제 실수 방지 + Rescue 복구)](/posts/openclaw-safety-approvals-rescue)
 
-If you put *work* and *personal* into a single assistant, it eventually gets mixed.
-Once it’s mixed, you start reviewing everything more often — and the assistant turns from a helper into something you need to babysit.
+“비서를 더 똑똑하게 만드는 방법”보다, “비서가 실수하지 않게 만드는 방법”이 먼저 필요할 때가 있다.
+
+업무와 개인을 한 비서에 몰아넣으면 결국 섞인다. 섞이면 사용자가 더 자주 검수하게 되고, 그 순간부터 비서는 ‘편해지는 도구’가 아니라 ‘신경 쓰는 대상’이 된다.
 
 ---
 
-## One‑sentence summary
+## 한 문장 요약
 
-In OpenClaw, a **profile** is not a “tone setting.” It’s a switch that separates an assistant’s **memory / logins / rules / workspace**.
-If you split work vs personal into two profiles, you reduce cross‑talk, mistakes, and review fatigue.
+OpenClaw의 프로필(profile)은 “말투 설정”이 아니라, 비서의 **기억/로그인/규칙/작업공간**을 통째로 분리하는 스위치다. 업무/개인 비서를 프로필로 나누면 섞임과 실수, 검수 피로가 줄어든다.
 
 ---
 
-## A concrete example: two Telegram chats (“Work” / “Personal”)
+## 실례: 텔레그램 “업무 방” / “개인 방” 두 개로 쓰기
 
-The most intuitive setup for real users isn’t “use two apps.”
-It’s “use two chats in Telegram.”
+사용자 입장에서 가장 직관적인 형태는 “앱을 두 개 쓰는 것”이 아니라, 텔레그램에서 방(채팅)을 두 개로 나누는 것이다.
 
-- **Work chat (Work assistant):** meetings, docs, work links, work tools
-- **Personal chat (Personal assistant):** daily life, personal plans, private notes
+- 업무 방(Work 비서): 회의/자료/업무용 링크/업무용 도구 중심
+- 개인 방(Personal 비서): 생활/개인 일정/사적인 기록 중심
 
-> Key point: you don’t need to remember tags.
-> You reduce mistakes simply by **picking the right chat**.
+> 🧠 포인트: “태그를 기억”하는 게 아니라 “방을 고르는 것”만으로 실수를 줄인다.
+>
+> 여기서 ‘방’은 보통 **두 개의 텔레그램 봇과 각각 DM을 나누는 것**을 뜻한다. (WorkBot DM / PersonalBot DM)
 
 ```plain text
-[Work chat] (Work assistant)
-Me: I have a 2pm meeting today. Summarize last week’s decisions + links + my action items.
-Assistant: (collect links → summarize → checklist)
+[업무 방] (Work 비서)
+나: 오늘 2시 회의 준비해줘. 지난주 결정사항/링크/해야 할 일만 정리해서 보내줘.
+비서: (회의 링크 모으기 → 핵심 요약 → 체크리스트 생성)
 
-[Personal chat] (Personal assistant)
-Me: Give me 3 dinner ideas. If possible, use what’s already in my fridge.
-Assistant: (simple options + shopping list)
+[개인 방] (Personal 비서)
+나: 오늘 저녁 뭐 먹을지 3개만 추천해줘. 냉장고 재료로 가능하면 좋고.
+비서: (간단 추천 + 장보기 리스트)
 
-Point: same person, same day — but different chats reduce the chance of memory/rules/permissions getting mixed.
+포인트: 같은 날, 같은 사람인데도 “방”이 다르면 비서의 기억/규칙/권한이 섞일 여지가 줄어든다.
 ```
 
-### The “Work” moment that actually saves time: a 10‑minute meeting prep routine
+### 업무 방 대표 장면: 회의 준비 10분 루틴
 
-When an assistant becomes genuinely useful at work, it’s usually **right before a meeting**:
-links are scattered, decisions are unclear, and you still need to send messages.
+업무에서 “비서가 있으면 진짜 편해지는 순간”은 회의 직전이다. 링크는 흩어져 있고, 결정해야 할 건 많고, 메시지는 보내야 한다.
 
-1. Collect meeting links/materials in one place
-2. Compress the situation into 5 lines (context / issues / decision points)
-3. Create 5 questions to ask today
-4. Turn notes into action items with priority + due dates
+1. 회의 링크/자료를 한곳에 모은다
+2. 쟁점/결정 포인트를 5줄로 압축한다
+3. 오늘 확인할 질문 5개를 만든다
+4. 회의 후 액션(TODO)을 우선순위/마감과 함께 정리한다
 
-> If you standardize a repeatable routine like “meeting prep,” the assistant gets faster the more you use it.
+> 🧠 업무 방에서는 “회의 준비” 같은 반복 루틴을 표준화해두면, 비서를 쓸수록 더 빨라진다.
 
 ```plain text
-Help me prepare for a meeting.
+회의 준비를 도와줘.
 
-- Title: {meeting title}
-- Time: {time}
-- Attendees: {people/team}
-- My goal: {1–2 decisions I need}
-- Reference links/files: {links}
+- 회의 제목: {회의명}
+- 시간: {시간}
+- 참석자/상대: {사람/팀}
+- 내 목표: {결정해야 하는 것 1~2개}
+- 참고 자료(링크/파일): {링크들}
 
-Output in this order:
-1) 5-line summary (context/issues/decision points)
-2) 5 questions to confirm in the meeting
-3) 5 action items (include priority + due date)
-4) 1 short message draft I can send before the meeting
+출력은 아래 순서로:
+1) 5줄 요약(상황/쟁점/결정 포인트)
+2) 오늘 회의에서 확인할 질문 5개
+3) 내가 해야 할 액션 5개(우선순위/마감 포함)
+4) 보낼 메시지 초안 1개(짧고 단정하게)
 ```
 
-### Copy‑paste prompts (Work)
+### 복붙용 예시(업무 방)
 
-- “Prepare today’s meeting(s). Collect links, then write a 5‑line summary + 5 questions.”
-- “Write a short, clear pre‑meeting message I can send.”
-- “Turn meeting notes into action items with owner / priority / due date.”
+- “오늘 회의(들) 준비해줘. 링크/참고자료 모아서, 쟁점/결정 포인트 5줄 요약 + 질문 5개 만들어줘.”
+- “회의 전에 보낼 사전 메시지 초안 써줘. 문장은 짧게, 톤은 단정하게.”
+- “회의 메모를 액션 아이템으로 바꿔줘. 담당/우선순위/마감까지 붙여줘.”
 
-### Copy‑paste prompts (Personal)
+### 복붙용 예시(개인 방)
 
-- “Make a grocery list. Ask what’s already in my fridge first.”
-- “Create a checklist to review my monthly fixed expenses.”
-- “Make a travel packing checklist: 3 days before / the day before / the day of.”
-
----
-
-## 1) What goes wrong when work + personal share one assistant
-
-- **Context leaks:** personal gets handled in a work tone, and vice‑versa
-- **Permissions expand:** work tools/permissions become available in personal chats
-- **Review fatigue:** you end up checking more often what the assistant did
+- “이번 주 장보기 리스트 만들어줘. 냉장고 재료 먼저 묻고 시작해줘.”
+- “이번 달 고정지출 점검 체크리스트 만들어줘.”
+- “여행 준비물 체크리스트를 ‘출발 3일 전/전날/당일’로 나눠줘.”
 
 ---
 
-## 2) The fix: two assistants = two profiles
+## 1) 문제: 업무/개인을 한 비서로 돌리면 생기는 3가지
 
-“Two assistants” here is not a metaphor — it means **two OpenClaw profiles**.
-Different profiles mean the assistant’s state is separated by default.
+- 대화가 섞인다: 개인 얘기를 업무 문맥으로, 업무 얘기를 개인 톤으로 처리하는 순간이 생긴다.
+- 권한이 커진다: “업무에도 쓰는 도구”가 개인 대화에도 열려서 실수 반경이 커진다.
+- 피로가 쌓인다: 결국 중요한 건 “비서가 뭘 했는지”를 사용자가 계속 검수하게 된다.
+
+---
+
+## 2) 해법: 비서를 2명으로 만든다(프로필 2개)
+
+여기서 “비서 2명”은 비유가 아니라, 실제로 **서로 다른 OpenClaw 프로필**을 뜻한다. 프로필이 다르면 기본적으로 비서의 상태가 분리된다.
 
 ```plain text
-# conceptually, you run them separately
+# 개념만 보면 이렇게 ‘따로 켠다’
 openclaw --profile work     gateway --port 18789
 openclaw --profile personal gateway --port 19001
 
-# and each profile is connected to a different Telegram bot (two chats)
+# 그리고 각 프로필은 서로 다른 텔레그램 봇(채팅방 2개)과 연결한다.
 ```
 
 ---
 
-## 3) What a profile actually separates (plain language)
+## 3) 무엇이 분리되나(쉽게 말하면)
 
-- **Memory/records:** chat history and “what happened” logs
-- **Logins/credentials:** which accounts the assistant can access
-- **Rules:** what can run automatically vs what must ask for confirmation
-- **Workspace:** the assistant’s working folder and skill files
-
----
-
-## 4) Benefits you’ll feel (not just theory)
-
-1. Fewer mistakes: your personal assistant is less likely to affect work conversations
-2. Lower review load: it’s obvious which assistant did what
-3. Better privacy: personal context is less likely to leak into work flows
-4. Easier maintenance: if work gets messy, personal doesn’t break too
-5. Easy to extend: you can add more assistants later (finance, travel, etc.)
+- 기억/기록: 대화 내역, 작업 로그(“방금 뭘 했는지”)
+- 로그인 정보: 어떤 계정으로 웹/도구에 접근하는지
+- 규칙: 무엇은 자동으로, 무엇은 꼭 확인 받고(보내기/삭제/결제 등)
+- 비서의 집(작업공간): 작업 폴더/메모/스킬 파일
 
 ---
 
-## 5) Why “two profiles + two Telegram chats” beats other approaches
+## 4) 그래서 뭐가 좋아지나(체감 장점 5개)
 
-- **One assistant + tags:** simplest, but one forgotten tag can cause a mistake
-- **Multiple agents inside one Gateway:** lighter, but major failures can still be shared
-- **VM/Docker full isolation:** powerful but heavy (setup + cost + maintenance)
-
-Profiles are the sweet spot for most people.
+1. 실수 방지: 개인 비서가 업무 메시지에 끼어드는 일이 줄어든다.
+2. 검수 부담 감소: “이건 업무 비서가 한 일”이라서 확인 포인트가 선명해진다.
+3. 사생활/보안: 개인 쪽 대화/자료가 업무 흐름에 섞일 가능성이 줄어든다.
+4. 유지보수: 업무 비서가 삐끗해도 개인 비서까지 같이 망가지지 않는다.
+5. 확장성: 나중에 ‘가계부/여행’ 같은 비서를 추가해도 방식이 같다.
 
 ---
 
-## 6) 10‑minute setup guide (WorkBot + PersonalBot + two profiles)
+## 5) 다른 방법보다 “프로필 2개 + 텔레그램 방 2개”가 좋은 이유
 
-This is intentionally minimal. You only need two things:
-(1) **two Telegram bots**, and (2) **two OpenClaw profiles**.
+- 한 비서에 “업무/개인” 태그만 붙이는 방식: 가장 쉽지만, 결국 태그를 빼먹는 순간 사고가 난다.
+- 한 Gateway 안에서 여러 에이전트(멀티 에이전트): 여러 비서를 굴릴 수 있지만, 큰 장애는 같이 맞는다.
+- VM/Docker로 완전 격리: 강력하지만 무겁다(설정/비용/관리 난이도). 대부분은 프로필이 딱 적당하다.
 
-> Tip: keep two terminal windows open (one for work, one for personal).
+---
 
-### 1) Create two Telegram bots (WorkBot / PersonalBot)
+## 6) 10분 설정 가이드: WorkBot/PersonalBot + 프로필 2개
 
-1. Open Telegram and message **@BotFather**
-2. Run `/newbot` twice (create two bots)
-3. Copy each bot token somewhere safe (WorkBot token / PersonalBot token)
+아래 가이드는 처음 설정하는 사람도 따라올 수 있게, 필요한 것만 적었다. 핵심은 두 가지다: (1) 텔레그램 봇 2개, (2) OpenClaw 프로필 2개.
 
-### 2) Create two OpenClaw profiles (work / personal)
+> 🪟 가능하면 터미널 창을 2개 열어두면 편하다. (work용 / personal용)
+
+### 0) 준비물
+
+- 텔레그램 앱
+- PC에서 터미널(맥: Terminal, 윈도: PowerShell)
+- OpenClaw 설치(이미 쓰고 있다면 스킵)
+
+### 1) BotFather로 봇 2개 만들기 (WorkBot / PersonalBot)
+
+1. 텔레그램에서 @BotFather를 연다.
+2. `/newbot`을 2번 실행해서 봇을 2개 만든다.
+3. 각각의 bot token을 안전한 곳에 복사해둔다. (WorkBot 토큰 / PersonalBot 토큰)
+
+> 💬 이 단계가 끝나면 텔레그램에 “업무 방(WorkBot DM)”과 “개인 방(PersonalBot DM)”이 생긴다.
+
+### 2) OpenClaw 프로필 2개 만들기 (work / personal)
+
+프로필은 비서의 기억/로그인/규칙/작업공간을 통째로 분리한다. 그래서 업무/개인이 섞일 여지가 줄어든다.
 
 ```bash
 openclaw --profile work setup
 openclaw --profile personal setup
 ```
 
-### 3) Connect each profile to its bot token
+### 3) 각 프로필에 “각각의 텔레그램 봇 토큰” 연결하기
+
+아래 명령에서 토큰만 바꿔서 입력하면 된다.
 
 ```bash
 openclaw --profile work config set channels.telegram.enabled true
@@ -176,52 +180,63 @@ openclaw --profile personal config set channels.telegram.enabled true
 openclaw --profile personal config set channels.telegram.botToken "<PERSONAL_BOT_TOKEN>"
 ```
 
-### 4) Run both assistants (two terminals)
+### 4) 두 비서를 각각 실행하기 (터미널 2개)
+
+서로 다른 포트로 실행한다. (포트는 예시고, 둘이 겹치지만 않으면 된다)
 
 ```bash
-## Terminal A (Work)
+## 터미널 A (업무 비서)
 openclaw --profile work gateway --port 18789
 
-## Terminal B (Personal)
+## 터미널 B (개인 비서)
 openclaw --profile personal gateway --port 19001
 ```
 
-> Tip: keep ~20 ports of spacing to avoid conflicts with derived ports.
+> 🧯 팁: 포트는 20 이상 간격을 두면 브라우저/캔버스 같은 “부가 포트” 충돌을 피하기 쉽다.
 
-### 5) (First time only) approve pairing if the bot doesn’t reply
+### 5) (처음 한 번) 페어링 승인하기
 
-1. Send a DM to each bot once (e.g., “hi”)
-2. Check pairing code:
+기본 설정에서는 “내가 나에게 DM 보내는 것”도 처음엔 승인(페어링)이 필요할 수 있다. 봇이 답장을 안 하면 이 단계만 하면 된다.
+
+1. WorkBot에게 DM을 한 번 보낸다. (예: “안녕”)
+2. 터미널에서 페어링 코드 확인:
 
 ```bash
 openclaw --profile work pairing list telegram
 ```
 
-3. Approve:
+3. 나오는 코드(예: ABC123)를 승인:
 
 ```bash
 openclaw --profile work pairing approve telegram <CODE>
 ```
 
-Repeat once for the personal profile.
+PersonalBot도 같은 방식으로 한 번 승인한다.
 
-### 6) Pin the two chats
+### 6) 마지막: 두 방을 고정(Pin)하기
 
-Pin both chats in Telegram:
-- Work chat (WorkBot DM)
-- Personal chat (PersonalBot DM)
+- 업무 방(WorkBot DM) / 개인 방(PersonalBot DM)을 텔레그램 상단에 고정(pin)
+- 이제는 “업무는 업무 방에서”, “개인은 개인 방에서”만 지키면 된다
 
-Now the “rule” is simple: **work in the work chat, personal in the personal chat**.
+> ✅ 이 구조의 장점은 결국 습관이다. 태그/규칙을 외우는 게 아니라 “방만 고르면” 된다.
 
 ---
 
-## FAQ
+## 자주 하는 질문(FAQ)
 
-- **Isn’t running two assistants annoying?**
-  - After the initial setup, it’s usually *less* annoying than constantly reviewing one mixed assistant.
+- Q. 결국 비서를 2개 켜야 하니 번거롭지 않나?
+  - A. 초반 1회 설정 이후에는 “방만 고르는” 습관이 생겨서 검수 피로가 더 크게 줄어든다.
 
-- **Can my personal assistant see my work content?**
-  - With separate profiles, the default state/history is separated, which greatly reduces mixing.
+- Q. 개인 비서가 업무 내용을 보게 되나?
+  - A. 프로필을 분리하면 기본 상태/기록이 분리돼서 섞일 가능성이 크게 줄어든다.
 
-- **Does it cost more?**
-  - Usage may increase. The goal is to reduce mistakes and review overhead (total fatigue goes down).
+- Q. 비용은 더 드나?
+  - A. 비서가 2명이면 사용량은 늘 수 있다. 대신 실수/재확인/정리 비용이 줄어 “총 피로”가 내려가는 쪽에 가깝다.
+
+---
+
+## 관련 글
+
+- [OpenClaw란 무엇인가: “말 잘하는 AI”를 “일하는 AI”로 바꾸는 런타임](/posts/openclaw-what-is)
+- [OpenClaw 아키텍처 한 번에 이해하기: Gateway가 ‘런타임’인 이유](/posts/openclaw-architecture-runtime)
+- [OpenClaw 프롬프트 한 번에 이해하기: “날씨 알려줘”가 실제로 처리되는 흐름](/posts/openclaw-prompt-runtime-trace)

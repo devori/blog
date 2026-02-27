@@ -22,13 +22,12 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug, 'en');
+  const post = getPostBySlug(slug);
 
   if (!post) return {};
 
   const url = `${SITE_URL}/posts/${slug}`;
-  const koUrl = `${SITE_URL}/ko/posts/${slug}`;
-  const locale = post.lang === 'ko' ? 'ko_KR' : 'en_US';
+  const locale = 'ko_KR';
 
   return {
     title: post.title,
@@ -37,10 +36,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     authors: [{ name: 'Leo' }],
     alternates: {
       canonical: url,
-      languages: {
-        en: url,
-        ko: koUrl,
-      },
     },
     openGraph: {
       type: 'article',
@@ -62,7 +57,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Post({ params }: Props) {
   const { slug } = await params;
-  const post = getPostBySlug(slug, 'en');
+  const post = getPostBySlug(slug);
 
   if (!post) {
     notFound();
@@ -73,9 +68,9 @@ export default async function Post({ params }: Props) {
     .process(post.content);
   const contentHtml = processedContent.toString();
   const readingTime = Math.ceil(post.content.length / 500);
-  const dateLocale = post.lang === 'ko' ? 'ko-KR' : 'en-US';
-  const readingLabel = post.lang === 'ko' ? `${readingTime}분` : `${readingTime} min`;
-  const inLanguage = post.lang === 'ko' ? 'ko-KR' : 'en-US';
+  const dateLocale = 'ko-KR';
+  const readingLabel = `${readingTime}분`;
+  const inLanguage = 'ko-KR';
 
   const jsonLd = {
     '@context': 'https://schema.org',

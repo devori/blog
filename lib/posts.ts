@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
-export type PostLang = 'en' | 'ko';
+export type PostLang = 'ko';
 
 type Frontmatter = {
   title?: string;
@@ -26,7 +26,7 @@ export interface PostData {
 
 export function getAllPosts(): PostData[] {
   const posts = getAllSlugs()
-    .map((slug) => getPostBySlug(slug, 'en'))
+    .map((slug) => getPostBySlug(slug))
     .filter((post): post is PostData => post !== null);
 
   return posts.sort((a, b) => {
@@ -44,20 +44,15 @@ export function getAllSlugs(): string[] {
     return [];
   }
 
-  const slugs = new Set<string>();
   const fileNames = fs.readdirSync(postsDirectory);
 
-  for (const fileName of fileNames) {
-    if (fileName.endsWith('.ko.md')) {
-      slugs.add(fileName.slice(0, -'.ko.md'.length));
-      continue;
-    }
-    if (fileName.endsWith('.md')) {
-      slugs.add(fileName.slice(0, -'.md'.length));
-    }
-  }
-
-  return Array.from(slugs).sort((a, b) => a.localeCompare(b));
+  // Only publish top-level *.md files (Korean).
+  // Anything in subfolders (e.g. posts/_en/) is ignored.
+  return fileNames
+    .filter((fileName) => fileName.endsWith('.md'))
+    .filter((fileName) => !fileName.endsWith('.en.md'))
+    .map((fileName) => fileName.slice(0, -'.md'.length))
+    .sort((a, b) => a.localeCompare(b));
 }
 
 function normalizeDate(value: unknown): string {
@@ -94,44 +89,27 @@ function normalizeTags(value: unknown): string[] {
   return [String(value)].map((s) => s.trim()).filter(Boolean);
 }
 
-export function getPostBySlug(slug: string, preferLang: PostLang = 'en'): PostData | null {
-  const candidates =
-    preferLang === 'ko'
-      ? [`${slug}.ko.md`, `${slug}.md`]
-      : [`${slug}.md`, `${slug}.ko.md`];
-
-  for (const fileName of candidates) {
-    const fullPath = path.join(postsDirectory, fileName);
-    if (!fs.existsSync(fullPath)) {
-      continue;
-    }
-
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-    const { data, content } = matter(fileContents);
-    const fm = data as Frontmatter;
-
-    const date = normalizeDate(fm.date);
-    const tags = normalizeTags(fm.tags);
-    const inferredLang: PostLang = fileName.endsWith('.ko.md') ? 'ko' : 'en';
-    const lang = normalizeLang(fm.lang, inferredLang);
-
-    return {
-      slug,
-      title: fm.title || slug,
-      date,
-      tags,
-      excerpt: fm.excerpt || '',
-      content,
-      lang,
-    };
+export function getPostBySlug(slug: string): PostData | null {
+  const fileName = `${slug}.md`;
+  const fullPath = path.join(postsDirectory, fileName);
+  if (!fs.existsSync(fullPath)) {
+    return null;
   }
 
-  return null;
-}
+  const fileContents = fs.readFileSync(fullPath, 'utf8');
+  const { data, content } = matter(fileContents);
+  const fm = data as Frontmatter;
 
-function normalizeLang(value: unknown, fallback: PostLang): PostLang {
-  if (value === 'en' || value === 'ko') {
-    return value;
-  }
-  return fallback;
+  const date = normalizeDate(fm.date);
+  const tags = normalizeTags(fm.tags);
+
+  return {
+    slug,
+    title: fm.title || slug,
+    date,
+    tags,
+    excerpt: fm.excerpt || '',
+    content,
+    lang: 'ko',
+  };
 }

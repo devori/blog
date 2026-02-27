@@ -1,103 +1,95 @@
 ---
-title: "OpenClaw model setup: start free, scale smart with failover"
+title: "OpenClaw 모델 연결 가이드: 무료로 시작해서 똑똑하게 확장하기"
 date: "2026-02-10"
-lang: "en"
-excerpt: "Use Gemini’s free tier for day-to-day, and automatically fail over to Claude only when you need it. A practical setup for balancing quality and cost."
+lang: "ko"
+excerpt: "Gemini 무료 티어를 메인으로 쓰면서, 필요할 때만 Claude Opus로 전환하는 스마트한 AI 비서 세팅법"
 tags: ["openclaw"]
 ---
 
-> Language: **English** | [한국어](/ko/posts/openclaw-model-setup)
 
-When you start using an AI assistant seriously, you run into one unavoidable problem:
-**quality vs cost**.
+AI 비서를 본격적으로 사용하기 시작하면 피할 수 없는 고민이 있다. 바로 **'성능'**과 **'비용'**의 균형이다.
 
-Top-tier models (e.g. Claude Opus) are great — and expensive.
-Free models are cheap — but sometimes you get a “is this really the best?” answer.
-Manually switching models all the time is also annoying.
+Claude Opus 같은 최고급 모델을 쓰면 똑똑하긴 한데 지갑이 아프고, 무료 모델만 고집하자니 가끔 "이게 최선이야?" 싶은 답변에 아쉬움이 남는다. 그렇다고 매번 수동으로 모델을 바꿔가며 쓰기엔 너무 번거롭다.
 
-OpenClaw’s **failover** solves this cleanly:
-use a free model for most requests, and automatically bring in a premium model only when it matters.
+OpenClaw의 **Failover(자동 전환)** 기능은 이 고민을 깔끔하게 해결한다. 평소엔 무료 모델로 대부분의 작업을 처리하고, 정말 필요한 순간에만 프리미엄 모델이 자동으로 등판하는 구조다.
 
-## Install & basics (do this first)
+## 설치 & 기본 설정 (먼저 이것부터)
 
-This post focuses on “Primary/Fallback model setup,” but you need OpenClaw installed and the Gateway running first.
+이 글의 핵심은 “모델 연결(Primary/Fallback)”이지만, 그 전에 OpenClaw 자체를 설치하고 게이트웨이를 띄워야 한다.
 
-### 1) Install
+### 1) 설치
 
-On Node **22+**, the simplest path is: install the CLI, then run the onboarding wizard.
+Node **22+** 기준으로 가장 간단한 방법은 CLI 설치 후 온보딩 위저드를 돌리는 것이다.
 
 ```bash
 npm install -g openclaw@latest
 openclaw onboard --install-daemon
 ```
 
-- This installs the Gateway (daemon) so it keeps running in the background.
-- On macOS, OpenClaw.app (menu bar app) is convenient for system permissions (notifications/screen access).
+- 위 명령은 Gateway(데몬)를 설치해서 백그라운드로 계속 돌게 해준다.
+- macOS를 쓰면 OpenClaw.app(메뉴바 앱) 쪽에서 권한(알림/스크린 등)도 같이 챙기는 게 편하다.
 
-### 2) Connect a channel (e.g. Telegram)
+### 2) 채널(예: Telegram) 연결
 
-OpenClaw shines when it replies in the channels you already use.
+OpenClaw는 “내가 이미 쓰는 채널에서” 답장해주는 게 장점이다.
 
-- For Telegram: create a bot via BotFather, set the token, then approve pairing.
-- The official guide is the safest source for exact steps: https://docs.openclaw.ai/start/getting-started
+- Telegram을 쓰는 경우: BotFather로 봇을 만들고 토큰을 넣은 뒤 페어링하면 된다.
+- 세부 단계는 공식 가이드가 제일 안전하다: https://docs.openclaw.ai/start/getting-started
 
-### 3) Prepare provider auth (Gemini / Claude)
+### 3) 모델 인증 준비 (Gemini / Claude)
 
-To use model providers you need credentials:
+모델을 연결하려면 각 프로바이더 인증이 필요하다.
 
-- Gemini: API key
-- Claude (Anthropic): token / plan (paid)
+- Gemini: API Key
+- Claude(Anthropic): 토큰/플랜(유료)
 
-Once these are ready, you can set up automatic model switching.
+여기까지 끝났으면 이제 이 글의 본론인 “모델을 여러 개 연결해서 자동 전환”을 세팅할 준비가 됐다.
 
-## Why connect multiple models?
+## 왜 모델을 여러 개 연결해야 할까?
 
-With a single model you eventually hit pain.
+단일 모델만 사용하면 예상치 못한 문제에 부딪힌다.
 
-**If you use only a free model:**
-- rate limits can make you suddenly unable to get responses
-- quality can drop on complex coding or long-document tasks
-- you end up fighting “try again later” messages
+**무료 모델만 쓸 때:**
+- Rate Limit에 걸리면 갑자기 응답 불가
+- 복잡한 코딩이나 긴 문서 작업에서 품질 저하
+- "잠시 후 다시 시도해주세요" 메시지와의 싸움
 
-**If you use only a paid model:**
-- you pay for trivial questions (“what’s the weather?”)
-- end-of-month bills surprise you
-- cost anxiety reduces your actual usage
+**유료 모델만 쓸 때:**
+- "오늘 날씨 어때?" 같은 단순 질문에도 비용 발생
+- 월말 청구서를 보고 놀라는 경험
+- 비용 걱정에 AI 사용을 주저하게 됨
 
-With multiple models, you can get both:
-free for normal conversation, premium power only for hard moments.
+여러 모델을 연결하면 두 마리 토끼를 다 잡을 수 있다. 일상적인 대화는 무료로 처리하고, 진짜 어려운 문제에만 프리미엄 모델의 힘을 빌린다.
 
-## Gemini free tier is more generous than you think
+## Gemini Free Tier: 생각보다 넉넉하다
 
-Google Gemini’s free tier is fairly friendly for personal use.
+Google Gemini API의 무료 티어는 개인 사용자에게 꽤 관대하다.
 
-- **RPM**: 15 requests per minute
-- **RPD**: 1,500 requests per day
-- **TPM**: 1,000,000 tokens per minute
+- **분당 요청 (RPM)**: 15회 — 1분에 15번 질문 가능
+- **일일 요청 (RPD)**: 1,500회 — 하루 1,500번 질문 가능
+- **분당 토큰 (TPM)**: 100만 — 엄청 긴 문서도 처리 가능
 
-1,500/day is plenty for one person.
-But **15 RPM** can be tight in workflows that call tools repeatedly.
-That’s where failover is valuable.
+하루 1,500번이면 아침부터 밤까지 쉬지 않고 대화해도 남는다. 현실적으로 혼자 쓰기엔 충분한 양이다.
 
-## Claude Opus as the “backup you actually trust”
+다만 주의할 점이 있다. **분당 15회** 제한은 생각보다 빡빡할 수 있다. 특히 코딩 작업처럼 AI가 파일을 읽고, 수정하고, 테스트하는 과정에서 도구를 연속으로 호출하면 순식간에 한도에 도달한다. 이럴 때 Failover가 빛을 발한다.
 
-When Gemini is rate-limited, or you hit a genuinely hard problem, you want a strong fallback.
+## Claude Opus: 든든한 백업이자 비장의 무기
 
-**Typical pricing (example):**
-- Input: $5 / MTok
-- Output: $25 / MTok
+Gemini가 막혔을 때, 또는 정말 어려운 문제를 만났을 때 등판할 Claude Opus 4.5.
 
-It looks expensive, but if used only as a fallback, monthly cost can be small.
-And Opus tends to shine on:
-- complex refactors
-- nuance-heavy writing
-- multi-constraint analysis
+**가격:**
+- Input: $5/MTok (100만 토큰당 5달러)
+- Output: $25/MTok (100만 토큰당 25달러)
 
-## Setup: 3 minutes
+언뜻 보면 비싸 보이지만, Fallback 용도로만 쓰면 실제 비용은 미미하다. 한 달에 Opus가 10번 정도 등판한다고 치면? 몇천 원 수준이다.
 
-Open the OpenClaw config and edit only the model section.
+그리고 Opus는 확실히 다르다. 복잡한 코드 리팩토링, 미묘한 뉘앙스가 필요한 글쓰기, 여러 조건을 동시에 고려해야 하는 분석 작업에서 "아, 역시 비싼 모델이 다르구나" 싶은 순간이 온다.
 
-**Config path:** `~/.openclaw/openclaw.json`
+## 설정 방법: 3분이면 끝
+
+OpenClaw 설정 파일을 열고 `model` 섹션만 수정하면 된다.
+
+**파일 위치:** `~/.openclaw/openclaw.json`
 
 ```json
 {
@@ -112,36 +104,36 @@ Open the OpenClaw config and edit only the model section.
 }
 ```
 
-Two keys matter:
+핵심은 두 가지다:
+- `primary`: 평소에 사용할 기본 모델
+- `fallbacks`: primary가 실패했을 때 순서대로 시도할 백업 모델들 (배열)
 
-- `primary`: default model
-- `fallbacks`: backup models (in order)
-
-You can chain multiple fallbacks:
+Fallback을 여러 개 지정할 수도 있다:
 
 ```json
 "fallbacks": ["anthropic/claude-sonnet-4", "anthropic/claude-opus-4-5"]
 ```
 
-So you try Gemini → Sonnet → Opus, maximizing cost efficiency.
+이렇게 하면 Gemini → Sonnet → Opus 순으로 시도한다. 비용 효율을 극대화하는 전략이다.
 
-## How it feels: you don’t have to think about it
+## 작동 원리: 사용자는 신경 쓸 게 없다
 
-After setup:
+설정만 해두면 나머지는 OpenClaw가 알아서 처리한다.
 
-1. Gemini handles most requests
-2. if rate-limited / error / outage happens
-3. OpenClaw automatically switches to the next fallback
-4. when the primary recovers, it returns
+1. 평소에는 **Gemini Flash**가 모든 요청을 처리
+2. Rate Limit 도달, API 오류, 또는 일시적 장애 발생 시
+3. **자동으로 다음 Fallback 모델로 전환**
+4. 원래 모델이 복구되면 다시 원래 모델 사용
 
-From a user’s perspective it’s usually just “responses got slightly slower,” not a hard stop.
+전환 과정이 매끄러워서 사용자 입장에서는 "응답이 살짝 느려졌나?" 정도로만 느껴진다. 갑자기 막히거나 에러가 뜨는 일 없이, 항상 어떤 형태로든 응답을 받을 수 있다.
 
-## Practical token/cost tips
+## 실전 토큰 최적화 팁
 
-### 1) Use compaction
+Failover 설정만으로도 충분히 효율적이지만, 몇 가지 습관을 들이면 비용을 더 아낄 수 있다.
 
-Long chats grow context, and context grows tokens.
-Compaction summarizes older history to keep context size under control.
+### 1. Compaction 기능 활용하기
+
+대화가 길어지면 컨텍스트가 쌓이고, 컨텍스트가 쌓이면 토큰 소비가 늘어난다. OpenClaw의 Compaction 기능은 오래된 대화 내용을 자동으로 요약해서 컨텍스트 크기를 관리한다.
 
 ```json
 "compaction": {
@@ -149,19 +141,19 @@ Compaction summarizes older history to keep context size under control.
 }
 ```
 
-### 2) Start a new session when the topic changes
+`safeguard` 모드가 기본값인데, 컨텍스트가 한계에 가까워지면 자동으로 압축을 시작한다. 대부분의 경우 이 설정으로 충분하다.
 
-If you jump to a totally new topic in the same session, old context keeps consuming tokens.
+### 2. 대화 주제가 바뀌면 새 세션 시작하기
 
-When the topic changes, use `/clear` (or start a new session) to reset context.
+"아까 그거 말고 다른 얘기 할게"라면서 같은 세션에서 전혀 다른 주제로 넘어가면, 이전 대화 내용이 계속 컨텍스트에 남아서 토큰을 잡아먹는다.
 
-### 3) Prompt caching (Claude)
+주제가 완전히 바뀌면 `/clear` 명령어로 세션을 정리하거나, 새 세션을 시작하는 게 좋다.
 
-On Claude, repeated system prompts can be cached and reused.
-Done right, this can reduce cost dramatically.
+### 3. Prompt Caching 활용하기 (Claude)
 
-OpenClaw typically uses a short cache by default.
-For long sessions, you can extend retention:
+Claude API를 사용할 때 동일한 시스템 프롬프트는 캐싱되어 재사용된다. 첫 요청에서 캐시를 쓰고, 이후 요청에서는 캐시를 읽기만 하면 되니 비용이 **최대 90%까지 절감**된다.
+
+OpenClaw는 기본적으로 5분 캐시(`short`)를 사용한다. 더 긴 작업이 예상되면 1시간 캐시(`long`)로 설정할 수도 있다:
 
 ```json
 "models": {
@@ -171,12 +163,14 @@ For long sessions, you can extend retention:
 }
 ```
 
-## What a week might look like
+## 일주일 사용 예상치
 
-With this setup:
+이 설정으로 일주일 정도 사용한다면 대략 이 정도를 예상할 수 있다:
 
-- Gemini: ~200–300 requests/day
-- Opus fallback: 3–5 times/week (mostly rate limits)
-- weekly cost: often under $1
+- **Gemini 사용량**: 일 평균 200~300회 요청
+- **Opus 전환 횟수**: 주 3~5회 정도 (대부분 Rate Limit)
+- **예상 주간 비용**: $1 미만 (Opus 사용분)
 
-Three minutes of setup, benefits you feel every day.
+사실상 **무료에 가까운 비용**으로 AI 비서를 운영할 수 있다. 가끔 복잡한 작업에서 Opus가 등판하면 "역시 든든하다" 싶고, 평소에는 Gemini가 충분히 빠르고 똑똑하다.
+
+비용 걱정 없이 AI 비서를 마음껏 활용해보자. 설정에 3분, 효과는 매일 체감할 수 있다.

@@ -1,64 +1,50 @@
 ---
-title: "Plannotator: review the plan before AI writes the code"
+title: "Plannotator: AI가 코드를 짜기 전에 계획부터 검토하자"
 date: "2026-02-11"
-lang: "en"
-excerpt: "A tool that lets you review and approve an AI coding agent’s plan (and even review diffs) before it runs. Plus a quick look at the licensing and where this workflow might go." 
+lang: "ko"
+excerpt: "Claude Code의 계획을 시각적으로 리뷰하고, 승인하거나 피드백을 보내는 도구. 그리고 이 도구의 미래에 대한 생각."
 tags: ["tools"]
 ---
 
-> Language: **English** | [한국어](/ko/posts/plannotator-ai-coding-review)
 
-If you use AI coding agents, you’ve probably seen this at least once:
+AI 코딩 에이전트를 쓰다 보면 한 번쯤 이런 경험을 한다.
 
-You say “fix this,” and the agent starts modifying 10 files.
-Something feels wrong, but it’s already halfway through.
-You end up doing `git reset --hard` and starting over.
+"이거 고쳐줘"라고 했는데, AI가 파일 10개를 수정하고 있다. 뭔가 잘못된 것 같은데 이미 한참 진행 중이다. 결국 `git reset --hard`를 치고 처음부터 다시 시작한다.
 
-The core problem is simple:
-**the agent executes immediately, without a reviewable plan**.
-Humans don’t run big changes that way — we plan, review, then execute.
-So why weren’t we demanding the same from AI agents?
+문제는 **계획 없이 바로 실행**에 들어간다는 것이다. 사람도 큰 작업을 할 때는 먼저 계획을 세우고 검토한 뒤에 실행하는데, AI에게는 왜 그걸 안 시키고 있었을까?
 
-## What Plannotator does
+## Plannotator가 하는 일
 
-[Plannotator](https://github.com/backnotprop/plannotator) addresses exactly this.
+[Plannotator](https://github.com/backnotprop/plannotator)는 이 문제를 해결한다.
 
-When Claude Code or OpenCode produces a plan, Plannotator opens a visual UI in your browser.
-There you can:
+Claude Code나 OpenCode가 계획을 세우면, 브라우저에서 시각적 UI가 열린다. 여기서 계획을 검토하고:
 
-- **Approve**: the agent starts implementing
-- **Request changes**: you leave feedback on the plan
+- **승인**: 에이전트가 구현을 시작한다
+- **변경 요청**: 주석을 달아서 피드백을 보낸다
 
-Feedback is structured as delete/insert/replace/comment.
-So you can say things like:
-- “remove this part”
-- “add this step”
-- “use approach B instead of A”
+주석은 삭제, 삽입, 교체, 코멘트 네 가지다. "이 부분은 빼줘", "여기에 이것도 추가해", "이 방식 대신 저 방식으로" 같은 피드백을 시각적으로 달 수 있다.
 
-## New: code review (diff review)
+## 새로 추가된 코드 리뷰 기능
 
-A feature added in Jan 2026: reviewing diffs via `/plannotator-review`.
+2026년 1월에 추가된 기능이 있다. `/plannotator-review` 명령어로 git diff를 리뷰할 수 있다.
 
-After the agent modifies code — but before committing — you can inspect changes visually:
-select line ranges, add comments, and switch diff views.
-If something looks off, send feedback and have the agent revise.
+에이전트가 코드를 수정한 뒤, 커밋하기 전에 변경 사항을 시각적으로 검토한다. 라인 번호를 선택해서 주석을 달고, diff 뷰를 전환하면서 확인한다. 마음에 안 드는 부분이 있으면 피드백을 보내서 수정하게 한다.
 
-Plan review + diff review.
-That two-step workflow dramatically reduces the chance of the agent running in the wrong direction.
+계획 리뷰와 코드 리뷰. 이 두 단계를 거치면 AI가 엉뚱한 방향으로 달려가는 걸 막을 수 있다.
 
-## Installation is straightforward
+## 설치는 간단하다
 
 **Claude Code:**
 
 ```bash
-# 1) install the plannotator command
+# 1. plannotator 커맨드 설치
 curl -fsSL https://plannotator.ai/install.sh | bash
 
-# 2) install the plugin in Claude Code
+# 2. Claude Code에서 플러그인 설치
 /plugin marketplace add backnotprop/plannotator
 /plugin install plannotator@plannotator
 
-# 3) restart Claude Code (important)
+# 3. Claude Code 재시작 (중요!)
 ```
 
 **OpenCode:**
@@ -70,46 +56,38 @@ curl -fsSL https://plannotator.ai/install.sh | bash
 }
 ```
 
-Then run the same install script.
+그리고 같은 설치 스크립트를 실행하면 된다.
 
-## Team workflows + Obsidian integration
+## 팀 협업과 Obsidian 연동
 
-It’s useful solo, but it shines in teams.
+혼자 쓰기에도 좋지만, 팀으로 쓸 때 더 빛난다.
 
-You can share plans, review them together, consolidate feedback, then send a clean set of changes back to the agent.
-It turns “does this design make sense?” into something you can discuss with a concrete artifact.
+계획을 팀원과 공유하고, 함께 검토하고, 피드백을 모아서 에이전트에게 전달할 수 있다. "이 설계로 갈 건데 어떻게 생각해?"를 시각적으로 보여주면서 논의할 수 있다는 뜻이다.
 
-Approved plans can also be saved automatically to Obsidian or Bear.
-That helps later when you ask: “why did we implement it this way?”
+승인된 계획은 Obsidian이나 Bear Notes에 자동 저장할 수도 있다. 나중에 "이 기능은 왜 이렇게 구현했지?" 할 때 계획서를 찾아볼 수 있다.
 
-## The license is unusual
+## 라이센스가 특이하다
 
-Plannotator uses **BSL 1.1 (Business Source License)**.
+Plannotator는 BSL 1.1(Business Source License)을 사용한다.
 
-It’s not open source — but **it becomes open source over time**.
+오픈소스가 아니다. 하지만 **시간이 지나면 오픈소스가 된다**.
 
-- personal use / internal company use: OK
-- selling it as a commercial SaaS to third parties: not allowed
-- on **Jan 1, 2030**: it automatically switches to Apache 2.0
+- 개인 사용, 회사 내부 사용: OK
+- 상업적 SaaS로 제3자에게 판매: 안 됨
+- **2030년 1월 1일**: Apache 2.0으로 자동 전환
 
-This is a strategy MariaDB popularized: prevent hyperscalers from reselling it, while still opening it to the community later.
-Projects like Sentry and CockroachDB have used similar approaches.
+MariaDB가 만든 이 라이센스는 "AWS 같은 클라우드 업체가 가져다 팔아서 돈 버는 걸 막으면서, 커뮤니티에는 열어두는" 전략이다. Sentry, CockroachDB 같은 프로젝트도 이 방식을 쓴다.
 
-For most developers, the practical rule is simple:
-if you’re not building a paid product that resells it, you can use it freely.
+개발자 입장에서는 그냥 쓰면 된다. 이걸 기반으로 유료 서비스를 만들어 팔 게 아니라면 아무 제약이 없다.
 
-## Where this goes next
+## 이 도구의 미래
 
-An honest thought:
+솔직한 생각을 적어본다.
 
-The problem Plannotator solves — plan review + approval — is a core AI-coding workflow.
-Right now it’s a third-party tool.
-But will it stay third-party?
+Plannotator가 해결하는 문제—계획 검토와 승인—는 AI 코딩의 핵심 워크플로우다. 지금은 서드파티 도구로 존재하지만, 이게 계속 서드파티로 남아있을까?
 
-Claude Code is already integrated into the Claude desktop app.
-If plan review proves essential, it’s very plausible that a similar feature becomes built-in over time.
-It could even happen before 2030, before the license flips to Apache 2.0.
+Claude Code는 이미 Claude 데스크탑 앱에 탑재됐다. Anthropic이 AI 코딩을 중요하게 생각한다는 뜻이다. 계획 리뷰 기능이 유용하다는 게 증명되면, 언젠가 Claude Code 자체에 비슷한 기능이 내장될 가능성이 높다.
 
-That’s fine.
-Good tools influence the mainstream, and what works becomes standard.
-If you want better control over AI coding *today*, Plannotator is a solid choice.
+2030년에 BSL이 Apache 2.0으로 전환되기 전에, 이미 공식 기능으로 흡수되어 있을 수도 있다.
+
+그래도 괜찮다. 좋은 도구가 메인스트림에 영향을 주고, 결국 표준이 되는 건 오픈소스 생태계의 자연스러운 순환이니까. 지금 당장 AI 코딩의 생산성을 높이고 싶다면, Plannotator는 좋은 선택이다.

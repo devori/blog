@@ -17,7 +17,7 @@ export default function Nav({ backLink }: { backLink?: boolean }) {
               href="/"
               className="text-sm text-muted hover:text-foreground transition-colors duration-150 mr-2"
             >
-              Posts
+              글 목록
             </Link>
           )}
           <ThemeToggle />

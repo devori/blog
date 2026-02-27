@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   creator: 'Leo',
   publisher: 'Leo',
   category: 'technology',
-  keywords: ['blog', 'development', 'design', 'OpenClaw', 'AI', 'programming'],
+  keywords: ['블로그', '개발', '디자인', 'OpenClaw', 'AI', '프로그래밍'],
   formatDetection: {
     email: false,
     address: false,
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    locale: 'en_US',
+    locale: 'ko_KR',
     url: SITE_URL,
     siteName: SITE_NAME,
     title: SITE_NAME,
@@ -69,7 +69,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="ko" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>

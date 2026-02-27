@@ -1,43 +1,39 @@
 ---
 title: "Hello World"
 date: "2026-02-09"
-lang: "en"
-excerpt: "My first blog post — why I’m starting this blog and what I plan to write about."
+lang: "ko"
+excerpt: "첫 번째 블로그 포스트입니다. 이 블로그를 시작하게 된 이유와 앞으로의 계획을 이야기합니다."
 tags: ["misc"]
 ---
 
-> Language: **English** | [한국어](/ko/posts/hello-world)
 
-# Hello!
+# 안녕하세요!
 
-Welcome to my blog built with Next.js.
-This is a place to write down what I learn while building things — plus a few thoughts from everyday life.
+Next.js로 만든 블로그에 오신 것을 환영합니다. 이 블로그는 개발하면서 배운 것들, 일상의 생각들을 기록하는 공간입니다.
 
-## Why start a blog?
+## 왜 블로그를 시작했나
 
-In software, you keep running into the same problems.
-You search, you fix, and then you forget.
-If you leave a record, you can find it again later — and it can help someone else too.
+개발을 하다 보면 같은 문제를 반복해서 만나게 됩니다. 그때마다 검색하고, 해결하고, 또 잊어버리고. 이 과정을 기록으로 남기면 나중에 다시 찾아볼 수 있고, 다른 사람에게도 도움이 될 수 있겠다고 생각했습니다.
 
-> Writing is one of the best ways to organize your thoughts.
+> 글을 쓰는 것은 생각을 정리하는 가장 좋은 방법이다.
 
-## Tech stack
+## 기술 스택
 
-This blog is built with:
+이 블로그는 다음 기술로 만들어졌습니다:
 
-- **Next.js** — a full-stack React framework
-- **Tailwind CSS** — utility-first styling
-- **Markdown** — for writing content
+- **Next.js** — React 기반 풀스택 프레임워크
+- **Tailwind CSS** — 유틸리티 퍼스트 CSS
+- **Markdown** — 콘텐츠 작성
 
-Code blocks are supported too:
+코드 블록도 지원합니다:
 
 ```javascript
 const greeting = "Hello, World!";
 console.log(greeting);
 ```
 
-## What’s next
+## 앞으로의 계획
 
-I’ll write about a range of topics — mostly web development, TypeScript, and productivity.
+다양한 주제로 글을 쓸 예정입니다. 주로 웹 개발, TypeScript, 그리고 생산성에 관한 이야기를 다룰 것 같습니다.
 
-Thanks for reading.
+읽어주셔서 감사합니다.
