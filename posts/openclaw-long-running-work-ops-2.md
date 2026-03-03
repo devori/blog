@@ -10,7 +10,7 @@ series_no: 2
 
 > 시리즈: OpenClaw 며칠짜리 작업
 > - 1편: [주제만 주면 기획/설계/개발까지 진행하는 OpenClaw 설정하기 (1): 내부 동작과 운영 원리](/posts/openclaw-long-running-work-ops-1)
-> - 2편 ✅ 현재: Telegram + Cron(announce) + Heartbeat + Notion 실전
+> - 2편 ✅ 현재: 주제만 주면 기획/설계/개발까지 진행하는 OpenClaw 설정하기 (2): Telegram + Cron(announce) + Heartbeat + Notion 실전
 >
 > 먼저 읽으면 좋은 글(선택):
 > - [안전 운영(브레이크 + 복구)](/posts/openclaw-safety-approvals-rescue)
