@@ -1,6 +1,6 @@
 ---
 title: "주제만 주면 기획/설계/개발까지 진행하는 OpenClaw 설정하기 (2): Telegram + Cron(announce) + Heartbeat + Notion 실전"
-date: 2026-03-03
+date: 2026-03-03T22:00:00+09:00
 lang: "ko"
 excerpt: "이슈가 있으면 Telegram으로 물어보고(승인 대기), 이슈가 없으면 정시 리포트를 보내며(Cron announce), 매번 깨어날 때 Notion에서 상태를 복원해 재개하는(OpenClaw Heartbeat) ‘며칠짜리 작업’ 운영 설정을 실제 템플릿/프롬프트 중심으로 정리한다."
 tags: ["openclaw", "ops", "automation", "notion", "telegram", "cron", "heartbeat"]
@@ -9,8 +9,8 @@ series_no: 2
 ---
 
 > 시리즈: OpenClaw 며칠짜리 작업
-> - 1편: [내부 동작과 운영 원리](/posts/openclaw-long-running-work-ops-1)
-> - 2편 ✅ 현재: 실전 설정(이 글)
+> - 1편: [주제만 주면 기획/설계/개발까지 진행하는 OpenClaw 설정하기 (1): 내부 동작과 운영 원리](/posts/openclaw-long-running-work-ops-1)
+> - 2편 ✅ 현재: Telegram + Cron(announce) + Heartbeat + Notion 실전
 >
 > 먼저 읽으면 좋은 글(선택):
 > - [안전 운영(브레이크 + 복구)](/posts/openclaw-safety-approvals-rescue)

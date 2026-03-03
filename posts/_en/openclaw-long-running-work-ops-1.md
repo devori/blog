@@ -1,6 +1,6 @@
 ---
 title: "Configuring OpenClaw to run multi-day work end-to-end (1): How it works internally"
-date: 2026-03-03
+date: 2026-03-03T12:00:00Z
 lang: "en"
 excerpt: "For multi-day tasks like ‘build a household ledger’, you don’t win with a single prompt. You win with an operating model: record → resume → approvals → scheduled reports. Part 1 explains what actually happens internally and where the user should intervene."
 tags: ["openclaw", "ops", "automation", "notion", "telegram"]
@@ -9,8 +9,8 @@ series_no: 1
 ---
 
 > Series: OpenClaw Long-running Work
-> - Part 1 ✅ (this): Internal operating model
-> - Part 2: Practical setup (Telegram + Cron + Heartbeat + Notion)
+> - Part 1 ✅ (this): How it works internally
+> - Part 2: [Telegram + Cron (announce) + Heartbeat + Notion](/posts/openclaw-long-running-work-ops-2)
 
 People want: “Give one topic, and the agent plans/designs/builds it.”
 

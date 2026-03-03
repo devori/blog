@@ -1,12 +1,16 @@
 ---
 title: "Configuring OpenClaw to run multi-day work end-to-end (2): Telegram + Cron (announce) + Heartbeat + Notion"
-date: 2026-03-03
+date: 2026-03-03T13:00:00Z
 lang: "en"
 excerpt: "A practical setup for multi-day work: ask on Telegram when blocked (Waiting approval), send daily reports on a fixed schedule (Cron isolated + announce), and resume reliably by reconstructing state from Notion on each heartbeat. Includes copy-paste prompts and message templates."
 tags: ["openclaw", "ops", "automation", "notion", "telegram", "cron", "heartbeat"]
 series: "OpenClaw Long-running Work"
 series_no: 2
 ---
+
+> Series: OpenClaw Long-running Work
+> - Part 1: [How it works internally](/posts/openclaw-long-running-work-ops-1)
+> - Part 2 ✅ (this): Telegram + Cron (announce) + Heartbeat + Notion
 
 This post is practical: how to configure a workflow where
 
