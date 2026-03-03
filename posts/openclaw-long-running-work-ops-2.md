@@ -183,7 +183,7 @@ flowchart TD
   OC -->|진행 가능하면 실행 + Evidence/Status 업데이트| NO
   OC -->|승인 필요하면 질문 전송| TG
 
-  CR[Cron (isolated + announce)\n정시 보고] -->|Notion 요약 조회| NO
+  CR["Cron (isolated + announce)<br/>정시 보고"] -->|Notion 요약 조회| NO
   CR -->|중간결과 + 다음계획| TG
 ```
 
