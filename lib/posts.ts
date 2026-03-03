@@ -32,10 +32,20 @@ export function getAllPosts(): PostData[] {
   return posts.sort((a, b) => {
     const at = Date.parse(a.date || '');
     const bt = Date.parse(b.date || '');
-    if (Number.isNaN(at) && Number.isNaN(bt)) return 0;
+    if (Number.isNaN(at) && Number.isNaN(bt)) {
+      // Deterministic fallback ordering
+      return a.slug.localeCompare(b.slug);
+    }
     if (Number.isNaN(at)) return 1;
     if (Number.isNaN(bt)) return -1;
-    return bt - at;
+
+    // Newest first
+    const diff = bt - at;
+    if (diff !== 0) return diff;
+
+    // Tie-breaker: stable, predictable ordering for same-day posts
+    // (ensures ...-1 comes before ...-2 when dates are equal)
+    return a.slug.localeCompare(b.slug);
   });
 }
 
