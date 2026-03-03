@@ -4,13 +4,16 @@ date: 2026-03-03
 lang: "ko"
 excerpt: "이슈가 있으면 Telegram으로 물어보고(승인 대기), 이슈가 없으면 정시 리포트를 보내며(Cron announce), 매번 깨어날 때 Notion에서 상태를 복원해 재개하는(OpenClaw Heartbeat) ‘며칠짜리 작업’ 운영 설정을 실제 템플릿/프롬프트 중심으로 정리한다."
 tags: ["openclaw", "ops", "automation", "notion", "telegram", "cron", "heartbeat"]
-series: "OpenClaw 운영"
-series_no: 4
+series: "OpenClaw 며칠짜리 작업"
+series_no: 2
 ---
 
-> 시리즈: OpenClaw 운영
-> - 3편: [내부 동작과 운영 원리](/posts/openclaw-long-running-work-ops-1)
-> - 4편 ✅ 현재: 실전 설정(이 글)
+> 시리즈: OpenClaw 며칠짜리 작업
+> - 1편: [내부 동작과 운영 원리](/posts/openclaw-long-running-work-ops-1)
+> - 2편 ✅ 현재: 실전 설정(이 글)
+>
+> 먼저 읽으면 좋은 글(선택):
+> - [안전 운영(브레이크 + 복구)](/posts/openclaw-safety-approvals-rescue)
 
 이 글은 “가계부 만들기” 같은 일을 OpenClaw에게 맡길 때, **사용자와 공유/수정/확인하면서** 며칠짜리 작업을 굴리는 실전 설정을 다룬다.
 

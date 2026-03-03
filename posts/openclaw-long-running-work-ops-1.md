@@ -4,15 +4,17 @@ date: 2026-03-03
 lang: "ko"
 excerpt: "‘가계부 만들기’ 같은 며칠짜리 작업을 OpenClaw에 맡기려면, 프롬프트 한 줄이 아니라 운영 구조(기록/재개/승인/정시 보고)를 먼저 세팅해야 한다. 1편은 실제로 어떤 일이 내부에서 일어나는지, 사용자는 어디에서 개입해야 하는지 설명한다."
 tags: ["openclaw", "ops", "automation", "notion", "telegram"]
-series: "OpenClaw 운영"
-series_no: 3
+series: "OpenClaw 며칠짜리 작업"
+series_no: 1
 ---
 
-> 시리즈: OpenClaw 운영
-> - 1편: [업무/개인 비서 분리(프로필 2개)](/posts/openclaw-profiles-work-personal)
-> - 2편: [안전 운영(브레이크 + 복구)](/posts/openclaw-safety-approvals-rescue)
-> - 3편 ✅ 현재: 며칠짜리 작업 운영(내부 동작)
-> - 4편: 며칠짜리 작업 운영(실전 설정) — 다음 글
+> 시리즈: OpenClaw 며칠짜리 작업
+> - 1편 ✅ 현재: 내부 동작과 운영 원리
+> - 2편: Telegram + Cron(announce) + Heartbeat + Notion 실전 설정 — 다음 글
+>
+> 먼저 읽으면 좋은 글(선택):
+> - [업무/개인 비서 분리(프로필 2개)](/posts/openclaw-profiles-work-personal)
+> - [안전 운영(브레이크 + 복구)](/posts/openclaw-safety-approvals-rescue)
 
 “주제만 주면 알아서 끝까지 해줘.”
 

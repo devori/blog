@@ -4,13 +4,13 @@ date: 2026-03-03
 lang: "en"
 excerpt: "For multi-day tasks like ‘build a household ledger’, you don’t win with a single prompt. You win with an operating model: record → resume → approvals → scheduled reports. Part 1 explains what actually happens internally and where the user should intervene."
 tags: ["openclaw", "ops", "automation", "notion", "telegram"]
-series: "OpenClaw Ops"
-series_no: 3
+series: "OpenClaw Long-running Work"
+series_no: 1
 ---
 
-> Series: OpenClaw Ops
-> - Part 3 ✅ (this): Multi-day work (internal model)
-> - Part 4: Multi-day work (practical setup)
+> Series: OpenClaw Long-running Work
+> - Part 1 ✅ (this): Internal operating model
+> - Part 2: Practical setup (Telegram + Cron + Heartbeat + Notion)
 
 People want: “Give one topic, and the agent plans/designs/builds it.”
 
