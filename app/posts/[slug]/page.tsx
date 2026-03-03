@@ -137,7 +137,7 @@ export default async function Post({ params }: Props) {
             prose-h2:text-xl prose-h2:mt-10 prose-h2:mb-3
             prose-h3:text-lg prose-h3:mt-8 prose-h3:mb-2
             prose-p:text-[15px] prose-p:leading-[1.8] prose-p:text-foreground/80 prose-p:my-4
-            prose-a:text-accent prose-a:no-underline prose-a:font-medium hover:prose-a:underline
+            prose-a:text-accent prose-a:no-underline prose-a:font-medium prose-a:hover:underline
             prose-strong:text-foreground prose-strong:font-semibold
             prose-code:text-[13px] prose-code:font-mono prose-code:bg-surface prose-code:text-accent prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:border prose-code:border-border prose-code:before:content-none prose-code:after:content-none
             prose-pre:bg-surface prose-pre:border prose-pre:border-border prose-pre:rounded-xl prose-pre:text-[13px] prose-pre:font-mono
